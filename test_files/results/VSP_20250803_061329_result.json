@@ -1,0 +1,35 @@
+{
+  "provider": "vsp",
+  "extraction_id": "a9e92b1d-44bc-4380-92a6-9ed5b57bcdba",
+  "data": {
+    "document_type": "vsp_patient_record",
+    "document_title": "VSP Patient Record Report",
+    "eligibility_info": {
+      "exam": true,
+      "lens": true,
+      "frame": true,
+      "contact_lens_exam": true,
+      "contacts": true
+    },
+    "plan_details": {
+      "plan_name": "VSP Signature Plan",
+      "copays": {
+        "exam": 20.0,
+        "contacts_exam": 60.0
+      },
+      "frame_allowance": {
+        "promotion": 20.0,
+        "altair_marchon": 170.0,
+        "non_altair_marchon": null
+      }
+    },
+    "lens_categories": [],
+    "custom_id": "52825614",
+    "metadata": {
+      "processingDate": "2025-08-03T06:13:29.345842"
+    }
+  },
+  "confidence": 0.8888888888888888,
+  "warnings": [],
+  "processing_time": 0.07730913162231445
+}

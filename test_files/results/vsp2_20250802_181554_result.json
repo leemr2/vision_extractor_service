@@ -1,0 +1,738 @@
+{
+  "provider": "vsp",
+  "extraction_id": "c2795a3e-00ec-4d51-a4f4-09d16d436656",
+  "data": {
+    "document_type": "vsp_lens_enhancement_charges",
+    "document_title": "VSP Lens Enhancement Charges",
+    "eligibility_info": {
+      "exam": null,
+      "lens": null,
+      "frame": null,
+      "contact_lens_exam": null,
+      "contacts": null
+    },
+    "plan_details": {
+      "plan_name": null,
+      "copays": null,
+      "frame_allowance": null
+    },
+    "lens_categories": [
+      {
+        "category": "LENSES",
+        "subcategories": [
+          {
+            "name": "Aspheric",
+            "options": [
+              {
+                "code": "AA",
+                "description": "Plastic 1.50 - Aspheric",
+                "single_cost": 23,
+                "multi_cost": 28,
+                "cost": null
+              },
+              {
+                "code": "BA",
+                "description": "Digital Aspheric lenses-Plastic",
+                "single_cost": 40,
+                "multi_cost": 45,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Oversize Lenses",
+            "options": [
+              {
+                "code": "RM",
+                "description": "Frames stamped 61mm Eye Size or Greater-Plastic",
+                "single_cost": 10,
+                "multi_cost": 12,
+                "cost": null
+              },
+              {
+                "code": "RN",
+                "description": "Frames stamped 61mm Eye Size or Greater-Glass",
+                "single_cost": 12,
+                "multi_cost": 16,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Blended Bifocal",
+            "options": [
+              {
+                "code": "GA",
+                "description": "Blended Bifocal Plastic",
+                "single_cost": 27,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Standard Progressives",
+            "options": [
+              {
+                "code": "KA",
+                "description": "Progressive K Plastic",
+                "single_cost": 0,
+                "multi_cost": 0,
+                "cost": null
+              },
+              {
+                "code": "KE",
+                "description": "Progressive K Glass",
+                "single_cost": 0,
+                "multi_cost": 0,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Premium Progressives",
+            "options": [
+              {
+                "code": "FA",
+                "description": "Progressive F Plastic",
+                "single_cost": 90,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "FE",
+                "description": "Progressive F Glass",
+                "single_cost": 95,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JA",
+                "description": "Progressive J Plastic",
+                "single_cost": 80,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JE",
+                "description": "Progressive J Glass",
+                "single_cost": 90,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Custom Progressives",
+            "options": [
+              {
+                "code": "NA",
+                "description": "Progressive N Plastic",
+                "single_cost": 160,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OA",
+                "description": "Progressive O Plastic",
+                "single_cost": 120,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "CM",
+                "description": "Custom Measurement",
+                "single_cost": null,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Polycarbonate",
+            "options": [
+              {
+                "code": "AD",
+                "description": "Polycarbonate",
+                "single_cost": 33,
+                "multi_cost": 33,
+                "cost": null
+              },
+              {
+                "code": "BD",
+                "description": "Polycarbonate (Digital Aspheric add-on)",
+                "single_cost": 10,
+                "multi_cost": 10,
+                "cost": null
+              },
+              {
+                "code": "DD",
+                "description": "Polycarbonate (Polarized add-on)",
+                "single_cost": 27,
+                "multi_cost": 27,
+                "cost": null
+              },
+              {
+                "code": "FD",
+                "description": "Polycarbonate (Progressive F add-on)",
+                "single_cost": 33,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "ID",
+                "description": "Polycarbonate (Near Variable Focus add-on)",
+                "single_cost": 17,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JD",
+                "description": "Polycarbonate (Progressive J add-on)",
+                "single_cost": 33,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "KD",
+                "description": "Polycarbonate (Progressive K add-on)",
+                "single_cost": 33,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "ND",
+                "description": "Polycarbonate (Progressive N add-on)",
+                "single_cost": 33,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OD",
+                "description": "Polycarbonate (Progressive O add-on)",
+                "single_cost": 33,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "High Index",
+            "options": [
+              {
+                "code": "AB",
+                "description": "High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 51,
+                "multi_cost": 55,
+                "cost": null
+              },
+              {
+                "code": "AF",
+                "description": "High-Index Glass 1.60-1.80 (Clear)",
+                "single_cost": 55,
+                "multi_cost": 127,
+                "cost": null
+              },
+              {
+                "code": "AH",
+                "description": "High-Index Plastic 1.66/1.67",
+                "single_cost": 76,
+                "multi_cost": 90,
+                "cost": null
+              },
+              {
+                "code": "AJ",
+                "description": "High-Index Plastic 1.71 & above",
+                "single_cost": 102,
+                "multi_cost": 110,
+                "cost": null
+              },
+              {
+                "code": "BB",
+                "description": "Digital Lenses-High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 27,
+                "multi_cost": 27,
+                "cost": null
+              },
+              {
+                "code": "BH",
+                "description": "Digital Lenses-High Index Plastic 1.66/1.67",
+                "single_cost": 56,
+                "multi_cost": 65,
+                "cost": null
+              },
+              {
+                "code": "BJ",
+                "description": "Digital Lenses-High Index Plastic 1.70 & Above",
+                "single_cost": 82,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "DB",
+                "description": "Polarized Lenses-High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 70,
+                "multi_cost": 88,
+                "cost": null
+              },
+              {
+                "code": "DH",
+                "description": "High-Index Plastic 1.66 (Polarized add-on)",
+                "single_cost": 82,
+                "multi_cost": 100,
+                "cost": null
+              },
+              {
+                "code": "DJ",
+                "description": "High-Index Plastic 1.70 & above - Polarized",
+                "single_cost": 100,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "FB",
+                "description": "Progressive F - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 42,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "FH",
+                "description": "High-Index Plastic 1.66 (Progressive F add-on)",
+                "single_cost": 72,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "FJ",
+                "description": "High-Index Plastic 1.71 (Progressive F add-on)",
+                "single_cost": 115,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "IB",
+                "description": "Near Variable Focus - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 21,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "II",
+                "description": "Near Variable Focus High-Index Plastic 1.66",
+                "single_cost": 45,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "IJ",
+                "description": "Near Variable Focus-High Index Plastic 1.70 & above",
+                "single_cost": 55,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JB",
+                "description": "Progressive J - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 42,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JH",
+                "description": "High-Index Plastic 1.66 (Progressive J add-on)",
+                "single_cost": 72,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JJ",
+                "description": "High-Index Plastic 1.71 (Progressive J add-on)",
+                "single_cost": 115,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "KB",
+                "description": "Progressive K - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 42,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "KH",
+                "description": "High-Index Plastic 1.66 (Progressive K add-on)",
+                "single_cost": 72,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "KJ",
+                "description": "High-Index Plastic 1.71 (Progressive K add-on)",
+                "single_cost": 115,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "NB",
+                "description": "Progressive N - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 42,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "NH",
+                "description": "High-Index Plastic 1.66 (Progressive N add-on)",
+                "single_cost": 72,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "NJ",
+                "description": "High-Index Plastic 1.71 (Progressive N add-on)",
+                "single_cost": 115,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OB",
+                "description": "Progressive O - High Index Plastic 1.60 & Below/Trivex",
+                "single_cost": 42,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OH",
+                "description": "High-Index Plastic 1.66 (Progressive O add-on)",
+                "single_cost": 72,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OJ",
+                "description": "High-Index Plastic 1.71 (Progressive O add-on)",
+                "single_cost": 115,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Photochromic",
+            "options": [
+              {
+                "code": "PM",
+                "description": "Photochromatics Glass",
+                "single_cost": 29,
+                "multi_cost": 37,
+                "cost": null
+              },
+              {
+                "code": "PR",
+                "description": "Photochromatics Plastic",
+                "single_cost": 70,
+                "multi_cost": 70,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Polarized/Laminated",
+            "options": [
+              {
+                "code": "DA",
+                "description": "Polarized Plastic A",
+                "single_cost": 53,
+                "multi_cost": 71,
+                "cost": null
+              },
+              {
+                "code": "DE",
+                "description": "Polarized Glass",
+                "single_cost": 72,
+                "multi_cost": 93,
+                "cost": null
+              },
+              {
+                "code": "FP",
+                "description": "Polarized (Progressive F add-on)",
+                "single_cost": 76,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "JP",
+                "description": "Polarized (Progressive J add-on)",
+                "single_cost": 76,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "KP",
+                "description": "Polarized (Progressive K add-on)",
+                "single_cost": 76,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "NP",
+                "description": "Polarized (Progressive N add-on)",
+                "single_cost": 76,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "OP",
+                "description": "Polarized (Progressive O add-on)",
+                "single_cost": 76,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "UV Protection",
+            "options": [
+              {
+                "code": "BV",
+                "description": "UV Protection Backside lens",
+                "single_cost": 10,
+                "multi_cost": 10,
+                "cost": null
+              },
+              {
+                "code": "SV",
+                "description": "UV Protection",
+                "single_cost": 14,
+                "multi_cost": 14,
+                "cost": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "TINTS",
+        "subcategories": [
+          {
+            "name": "Solid Tints and Dyes",
+            "options": [
+              {
+                "code": "MN",
+                "description": "Plastic Dyes (excludes Pink I & II)",
+                "single_cost": 13,
+                "multi_cost": 13,
+                "cost": null
+              },
+              {
+                "code": "MR",
+                "description": "Glass Tints (excludes Pink I & II & Yellow)",
+                "single_cost": 30,
+                "multi_cost": 41,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Plastic Gradient Dyes",
+            "options": [
+              {
+                "code": "MP",
+                "description": "Plastic Dyes Gradient",
+                "single_cost": 15,
+                "multi_cost": 15,
+                "cost": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "COATINGS",
+        "subcategories": [
+          {
+            "name": "Scratch Resistant Coating",
+            "options": [
+              {
+                "code": "QQ",
+                "description": "Scratch Resistant A",
+                "single_cost": 15,
+                "multi_cost": 15,
+                "cost": null
+              },
+              {
+                "code": "QS",
+                "description": "Scratch Resistant B",
+                "single_cost": 29,
+                "multi_cost": 29,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Anti-Reflective Coating",
+            "options": [
+              {
+                "code": "QM",
+                "description": "Anti-Reflective A",
+                "single_cost": 37,
+                "multi_cost": 37,
+                "cost": null
+              },
+              {
+                "code": "QT",
+                "description": "Anti-Reflective C",
+                "single_cost": 61,
+                "multi_cost": 61,
+                "cost": null
+              },
+              {
+                "code": "QV",
+                "description": "Anti-Reflective D",
+                "single_cost": 75,
+                "multi_cost": 75,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Color Coating",
+            "options": [
+              {
+                "code": "MS",
+                "description": "Glass Color Coatings Solid",
+                "single_cost": 38,
+                "multi_cost": 38,
+                "cost": null
+              },
+              {
+                "code": "MT",
+                "description": "Glass Color Coatings Gradient",
+                "single_cost": 42,
+                "multi_cost": 42,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Mirror and Ski Type Coating",
+            "options": [
+              {
+                "code": "QP",
+                "description": "Mirror Solid",
+                "single_cost": 44,
+                "multi_cost": 44,
+                "cost": null
+              },
+              {
+                "code": "QR",
+                "description": "Ski Type",
+                "single_cost": 50,
+                "multi_cost": 50,
+                "cost": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "category": "MISCELLANEOUS",
+        "subcategories": [
+          {
+            "name": "Edge Treatments",
+            "options": [
+              {
+                "code": "SP",
+                "description": "High Luster Edge Polish",
+                "single_cost": 14,
+                "multi_cost": 14,
+                "cost": null
+              },
+              {
+                "code": "SQ",
+                "description": "Edge Coating",
+                "single_cost": 32,
+                "multi_cost": 32,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Facets",
+            "options": [
+              {
+                "code": "SR",
+                "description": "Facetted Lenses",
+                "single_cost": 61,
+                "multi_cost": 61,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Rimless Mounting",
+            "options": [
+              {
+                "code": "SW",
+                "description": "Rimless Drill",
+                "single_cost": 30,
+                "multi_cost": 30,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Near Variable Focus",
+            "options": [
+              {
+                "code": "IA",
+                "description": "Near Variable Focus Plastic A",
+                "single_cost": 46,
+                "multi_cost": null,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Technical Add On",
+            "options": [
+              {
+                "code": "AE",
+                "description": "Technical Add On A",
+                "single_cost": null,
+                "multi_cost": null,
+                "cost": null
+              },
+              {
+                "code": "TA",
+                "description": "Technical Add On A",
+                "single_cost": 10,
+                "multi_cost": 40,
+                "cost": null
+              }
+            ]
+          },
+          {
+            "name": "Light Filter",
+            "options": [
+              {
+                "code": "LF",
+                "description": "Light Filter",
+                "single_cost": 15,
+                "multi_cost": 15,
+                "cost": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "custom_id": null,
+    "metadata": {
+      "processingDate": "2025-08-02T18:15:54.866431"
+    }
+  },
+  "confidence": 0.0,
+  "warnings": [],
+  "processing_time": 0.04199814796447754
+}

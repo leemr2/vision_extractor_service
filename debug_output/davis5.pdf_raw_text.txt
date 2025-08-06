@@ -1,0 +1,591 @@
+Carolina Nava-Bueno  (6/4/1992)
+Service Date: 04/01/2025
+Eligibility Token: 0YW0JQ001A2
+For EDI Claim Submissions
+content_copy
+BENEFIT MESSAGES   
+DRESS BENEFIT: ELIGIBLE FOR 1 EYE EXAM, 1 CONTACT LENS EVAL FITTING, 1 PAIR OF SPECTACLE LENSES. NOT ELIGIBLE UNTIL 4/11/2025DISCOUNT PRICING ON LASER SURGERY. USED FRAME,CONTACT LENS.
+Plan Covered Benefits
+Category
+Description
+Frequency
+Copay
+Amount
+Allowed Per
+Period
+Available
+Next Available
+Date
+Allowance
+Remaining
+Auth
+Required
+Exam
+Routine Exam
+Every 12 Months from service
+date
+$10
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting - Daily Wear
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting - Established
+Patient
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting - Extended Wear
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting - New Wear
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+Exam
+Contact Lens - Eval Fitting - Specialty
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+SpectacleLens
+Bifocal - Spectacle Lens (Plan)
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+SpectacleLens
+Single Vision - Spectacle Lens (Plan)
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+SpectacleLens
+Trifocal - Spectacle Lens (Plan)
+Every 12 Months from service
+date
+$25
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Blended Segment
+Every 12 Months from service
+date
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Premium
+Every 12 Months from service
+date
+$48
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Standard
+Every 12 Months from service
+date
+$35
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Ultimate
+Every 12 Months from service
+date
+$85
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Ultra
+Every 12 Months from service
+date
+$60
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Blue Light Filtering - EBS
+Every 12 Months from service
+date
+$15
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Mirror - Solid, Single & Double Gradient
+Every 12 Months from service
+date
+$86
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Tint Photogrey
+Every 12 Months from service
+date
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Tint Plastic - Photosensitive
+Every 12 Months from service
+date
+$65
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Scratch Resistant Coating
+Protection
+Every 12 Months from service
+date
+$40
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Scratch Resistant Coating Premium
+Every 12 Months from service
+date
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Single Vision - Tint Photogrey
+Every 12 Months from service
+date
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Single Vision - Tint Plastic - Photosensitive
+Every 12 Months from service
+date
+$65
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Scratch Resistant Coating
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Single Vision - Scratch Resistant Coating
+Protection
+Every 12 Months from service
+date
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Tint
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Tint GG
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Tint Gradient
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Tint Photogrey
+Every 12 Months from service
+date
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Tint Plastic - Photosensitive
+Every 12 Months from service
+date
+$65
+--
+Yes
+--
+--
+No
+4/1/25, 2:02 PM
+Versant Health
+https://ecp.versanthealth.com/member_search
+1/2
+
+
+Category
+Description
+Frequency
+Copay
+Amount
+Allowed Per
+Period
+Available
+Next Available
+Date
+Allowance
+Remaining
+Auth
+Required
+SpectacleLensOptions
+Tint Solid
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HD Polycarbonate - Multifocal
+Every 12 Months from service
+date
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HD Polycarbonate - Single Vision
+Every 12 Months from service
+date
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Ultraviolet Coating
+Every 12 Months from service
+date
+$12
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.67 - Single Vision
+Every 12 Months from service
+date
+$55
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polarized
+Every 12 Months from service
+date
+$75
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polycarbonate - Single Vision
+Every 12 Months from service
+date
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polycarbonate Provided
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.74 - Multifocal
+Every 12 Months from service
+date
+$120
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.74 - Single Vision
+Every 12 Months from service
+date
+$120
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Intermediate Vision
+Every 12 Months from service
+date
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Oversized Lenses
+Every 12 Months from service
+date
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Premium
+Every 12 Months from service
+date
+$90
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Standard
+Every 12 Months from service
+date
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Ultimate
+Every 12 Months from service
+date
+$175
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Ultra
+Every 12 Months from service
+date
+$140
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+High Luster Edge Polish
+Every 12 Months from service
+date
+$70
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Edge Polish
+Every 12 Months from service
+date
+$22
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Rimless Drill
+Every 12 Months from service
+date
+$66
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Roll Edge
+Every 12 Months from service
+date
+$24
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Roll Polish
+Every 12 Months from service
+date
+$16
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Slab Off
+Every 12 Months from service
+date
+$186
+--
+Yes
+--
+--
+No
+Frame
+--
+Every 12 Months from service
+date
+--
+--
+No
+04/10/2025
+--
+--
+ContactLens
+Contact Lens (Plan)
+Every 12 Months from service
+date
+--
+--
+No
+04/11/2025
+--
+--
+4/1/25, 2:02 PM
+Versant Health
+https://ecp.versanthealth.com/member_search
+2/2
+
+

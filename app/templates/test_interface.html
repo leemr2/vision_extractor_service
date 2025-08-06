@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision Extractor Test Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .upload-area { border: 2px dashed #ccc; padding: 40px; text-align: center; margin: 20px 0; }
+        .upload-area.dragover { border-color: #007bff; background: #f0f8ff; }
+        button { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .results { margin-top: 20px; padding: 15px; background: white; border-radius: 4px; }
+        .error { color: #dc3545; }
+        .success { color: #28a745; }
+        .loading { display: none; }
+        select, input[type="file"] { margin: 10px 0; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Vision Insurance Extractor Test Tool</h1>
+    
+    <div class="container">
+        <h2>Upload Insurance PDF(s)</h2>
+        <form id="extractForm" enctype="multipart/form-data">
+            <div>
+                <label for="providerHint">Insurance Provider (Required):</label>
+                <select id="providerHint" name="provider_hint" onchange="toggleVSPMode()" required>
+                    <option value="">-- Select Insurance Provider --</option>
+                    <option value="vsp">VSP Vision Care</option>
+                    <option value="eyemed">EyeMed Vision Care</option>
+                    <option value="davis">Davis Vision</option>
+                    <option value="spectera">Spectera (UnitedHealthcare Vision)</option>
+                    <option value="superior">Superior Vision</option>
+                    <option value="versant">Versant Health</option>
+                </select>
+            </div>
+            
+            <!-- Single file upload for non-VSP providers -->
+            <div id="singleFileMode">
+                <div class="upload-area" id="uploadArea">
+                    <p>📄 Drag & drop PDF file here or click to browse</p>
+                    <input type="file" id="fileInput" name="file" accept=".pdf" style="display: none;">
+                    <button type="button" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                </div>
+            </div>
+            
+            <!-- VSP dual file upload mode -->
+            <div id="vspFileMode" style="display: none;">
+                <h3>📋 VSP Requires Two Documents:</h3>
+                <p>Please upload both the <strong>Patient Record Report</strong> and <strong>Lens Enhancements</strong> documents:</p>
+                
+                <div class="upload-area" id="uploadArea1">
+                    <p>📄 Document 1: Patient Record Report</p>
+                    <input type="file" id="fileInput1" name="file1" accept=".pdf" style="display: none;">
+                    <button type="button" onclick="document.getElementById('fileInput1').click()">Browse Patient Record</button>
+                </div>
+                
+                <div class="upload-area" id="uploadArea2">
+                    <p>📄 Document 2: Lens Enhancements</p>
+                    <input type="file" id="fileInput2" name="file2" accept=".pdf" style="display: none;">
+                    <button type="button" onclick="document.getElementById('fileInput2').click()">Browse Lens Enhancements</button>
+                </div>
+            </div>
+            
+            <button type="submit" id="extractBtn">🚀 Extract Benefits</button>
+            <div class="loading" id="loading">⏳ Processing document(s)...</div>
+        </form>
+    </div>
+
+    <div id="results" class="results" style="display: none;"></div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea1 = document.getElementById('uploadArea1');
+        const fileInput1 = document.getElementById('fileInput1');
+        const uploadArea2 = document.getElementById('uploadArea2');
+        const fileInput2 = document.getElementById('fileInput2');
+        const extractForm = document.getElementById('extractForm');
+        const extractBtn = document.getElementById('extractBtn');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+
+        function toggleVSPMode() {
+            const providerHint = document.getElementById('providerHint').value;
+            const singleFileMode = document.getElementById('singleFileMode');
+            const vspFileMode = document.getElementById('vspFileMode');
+            
+            if (providerHint === 'vsp') {
+                singleFileMode.style.display = 'none';
+                vspFileMode.style.display = 'block';
+            } else {
+                singleFileMode.style.display = 'block';
+                vspFileMode.style.display = 'none';
+            }
+        }
+
+        // Single file drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateUploadArea(files[0], uploadArea, 'fileInput');
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                updateUploadArea(e.target.files[0], uploadArea, 'fileInput');
+            }
+        });
+
+        // VSP file 1 drag and drop
+        uploadArea1.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea1.classList.add('dragover');
+        });
+
+        uploadArea1.addEventListener('dragleave', () => {
+            uploadArea1.classList.remove('dragover');
+        });
+
+        uploadArea1.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea1.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput1.files = files;
+                updateUploadArea(files[0], uploadArea1, 'fileInput1');
+            }
+        });
+
+        fileInput1.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                updateUploadArea(e.target.files[0], uploadArea1, 'fileInput1');
+            }
+        });
+
+        // VSP file 2 drag and drop
+        uploadArea2.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea2.classList.add('dragover');
+        });
+
+        uploadArea2.addEventListener('dragleave', () => {
+            uploadArea2.classList.remove('dragover');
+        });
+
+        uploadArea2.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea2.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput2.files = files;
+                updateUploadArea(files[0], uploadArea2, 'fileInput2');
+            }
+        });
+
+        fileInput2.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                updateUploadArea(e.target.files[0], uploadArea2, 'fileInput2');
+            }
+        });
+
+        function updateUploadArea(file, area, inputId) {
+            const fileType = inputId === 'fileInput1' ? 'Patient Record' : 
+                            inputId === 'fileInput2' ? 'Lens Enhancements' : 'File';
+            area.innerHTML = `<p>✅ Selected: ${file.name}</p><button type="button" onclick="document.getElementById('${inputId}').click()">Change ${fileType}</button>`;
+        }
+
+        extractForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const providerHint = document.getElementById('providerHint').value;
+            
+            // Validate provider selection first
+            if (!providerHint) {
+                alert('Please select an insurance provider before uploading.');
+                return;
+            }
+            
+            const formData = new FormData();
+            
+            if (providerHint === 'vsp') {
+                // VSP mode - check for both files
+                if (!fileInput1.files.length || !fileInput2.files.length) {
+                    alert('Please select both PDF files for VSP extraction:\n- Patient Record Report\n- Lens Enhancements');
+                    return;
+                }
+                formData.append('file1', fileInput1.files[0]);
+                formData.append('file2', fileInput2.files[0]);
+            } else {
+                // Single file mode
+                if (!fileInput.files.length) {
+                    alert('Please select a PDF file first!');
+                    return;
+                }
+                formData.append('file', fileInput.files[0]);
+            }
+            
+            formData.append('provider_hint', providerHint);
+
+            extractBtn.disabled = true;
+            loading.style.display = 'block';
+            results.style.display = 'none';
+
+            try {
+                const response = await fetch('/test/extract', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showResults(result, true);
+                } else {
+                    showResults(result, false);
+                }
+            } catch (error) {
+                showResults({message: 'Network error: ' + error.message}, false);
+            } finally {
+                extractBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        function showResults(result, isSuccess) {
+            results.style.display = 'block';
+            
+            if (isSuccess) {
+                results.innerHTML = `
+                    <h3 class="success">✅ Extraction Successful!</h3>
+                    <p><strong>Provider:</strong> ${result.provider || 'Unknown'}</p>
+                    <p><strong>Confidence:</strong> ${result.confidence || 'N/A'}</p>
+                    <p><strong>Processing Time:</strong> ${result.processing_time ? result.processing_time.toFixed(2) + 's' : 'N/A'}</p>
+                    <p><strong>Result saved to:</strong> <code>${result.result_file}</code></p>
+                    <details>
+                        <summary>📊 View Extracted Data</summary>
+                        <pre style="background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto;">${JSON.stringify(result.data, null, 2)}</pre>
+                    </details>
+                `;
+            } else {
+                results.innerHTML = `
+                    <h3 class="error">❌ Extraction Failed</h3>
+                    <p class="error">${result.detail || result.message || 'Unknown error occurred'}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

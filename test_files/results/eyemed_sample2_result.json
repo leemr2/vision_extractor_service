@@ -1,0 +1,96 @@
+{
+  "provider": "EyeMed",
+  "patient_info": {
+    "member_id": "XYZ789012",
+    "network": "Insight Network"
+  },
+  "eligibility_info": {
+    "exam": {
+      "eligible_as_of": "02/01/2024",
+      "frequency": "Once every 12 months"
+    },
+    "lenses": {
+      "eligible_as_of": "02/01/2024",
+      "frequency": "Once every 12 months"
+    },
+    "frame": {
+      "eligible_as_of": "02/01/2024",
+      "frequency": "Once every 12 months"
+    },
+    "contact_lenses": {
+      "eligible_as_of": "02/01/2024",
+      "frequency": "Once every 12 months"
+    }
+  },
+  "vision_benefits": {
+    "exam_services": {
+      "exam": "$0",
+      "retinal_imaging": "Up to $0"
+    },
+    "frame": "30% off balance over $200",
+    "lenses": {
+      "single_vision": "$0 copay",
+      "bifocal": "$0 copay",
+      "trifocal": "$0 copay",
+      "lenticular": "$0 copay"
+    },
+    "progressive_lenses": {
+      "standard": "$0 copay",
+      "premium_tier_1": "$30",
+      "premium_tier_2": "$40",
+      "premium_tier_3": "$55",
+      "premium_tier_4": "$75 copay"
+    },
+    "lens_options": {
+      "anti_reflective_coating": {
+        "standard": "$0",
+        "premium_tier_1": "$15",
+        "premium_tier_2": "$30",
+        "premium_tier_3": "60% of retail"
+      },
+      "photochromic": "$20 ",
+      "polycarbonate": "$0",
+      "scratch_coating": "$0",
+      "tint": "$0",
+      "uv_treatment": "$0",
+      "other_options": "30% off retail"
+    },
+    "contact_lens_fit": {},
+    "contact_lenses": {}
+  },
+  "confidence": 0.8296875000000004,
+  "confidence_scores": {
+    "member_id": 0.9,
+    "network": 0.9,
+    "exam_eligible_date": 0.8,
+    "exam_frequency": 0.8,
+    "lenses_eligible_date": 0.8,
+    "lenses_frequency": 0.8,
+    "frame_eligible_date": 0.8,
+    "frame_frequency": 0.8,
+    "contact lenses_eligible_date": 0.8,
+    "contact lenses_frequency": 0.8,
+    "exam_cost": 0.9,
+    "retinal_imaging_cost": 0.8,
+    "frame_discount_allowance": 0.9,
+    "single_vision_cost": 0.85,
+    "bifocal_cost": 0.85,
+    "trifocal_cost": 0.85,
+    "lenticular_cost": 0.85,
+    "standard_cost": 0.85,
+    "premium_tier_1_cost": 0.85,
+    "premium_tier_2_cost": 0.85,
+    "premium_tier_3_cost": 0.85,
+    "premium_tier_4_cost": 0.85,
+    "standard_ar_cost": 0.85,
+    "premium_tier_1_ar_cost": 0.85,
+    "premium_tier_2_ar_cost": 0.85,
+    "premium_tier_3_ar_cost": 0.85,
+    "photochromic_cost": 0.8,
+    "polycarbonate_cost": 0.8,
+    "scratch_coating_cost": 0.8,
+    "tint_cost": 0.8,
+    "uv_treatment_cost": 0.8,
+    "other_options": 0.7
+  }
+}

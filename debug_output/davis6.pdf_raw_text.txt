@@ -1,0 +1,479 @@
+James Stevens  (6/15/1965)
+Service Date: 04/21/2025
+Eligibility Token: 28Y0SZVPSA1
+For EDI Claim Submissions
+content_copy
+BENEFIT MESSAGES   
+CURRENTLY ELIGIBLE, FOR, EXAM, $200 MATERIALS ALLOWANCE.
+Plan Covered Benefits
+Category
+Description
+Frequency
+Copay Amount
+Allowed Per Period
+Available
+Next Available Date
+Allowance Remaining
+Auth Required
+Exam
+Routine Exam
+Every Jan 1st
+No Copay
+--
+Yes
+--
+--
+No
+Frame
+Premier Frame
+Every Jan 1st
+No Copay
+--
+Yes
+--
+--
+No
+Frame
+Designer Frame
+Every Jan 1st
+No Copay
+--
+Yes
+--
+--
+No
+Frame
+Fashion Frame
+Every Jan 1st
+No Copay
+--
+Yes
+--
+--
+No
+Frame
+Frame (Non Plan)
+Every Jan 1st
+--
+200
+Yes
+--
+200
+No
+SpectacleLens
+Single Vision - Spectacle Lens (Plan)
+Every Jan 1st
+$41
+--
+Yes
+--
+--
+No
+SpectacleLens
+Bifocal - Spectacle Lens (Plan)
+Every Jan 1st
+$66
+--
+Yes
+--
+--
+No
+SpectacleLens
+Trifocal - Spectacle Lens (Plan)
+Every Jan 1st
+$96
+--
+Yes
+--
+--
+No
+SpectacleLens
+Single Vision - Lenticular Myodisc
+Every Jan 1st
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Single Vision - Scratch Resistant Coating
+--
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Scratch Resistant Coating
+--
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Standard
+--
+$35
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Ultraviolet Coating
+--
+$12
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Tint Gradient
+--
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Roll Polish
+--
+$16
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Tint Solid
+--
+No Copay
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Rimless Drill
+--
+$66
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Mirror - Solid, Single & Double Gradient
+--
+$86
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Blue Light Filtering - EBS
+--
+$15
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Multivision - Scratch Resistant Coating Protection
+--
+$40
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.74 - Single Vision
+--
+$120
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Roll Edge
+--
+$24
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Premium
+--
+$48
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Ultra
+--
+$60
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+AR Coating Ultimate
+--
+$85
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Edge Polish
+--
+$22
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Scratch Resistant Coating Premium
+--
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polycarbonate - Single Vision
+--
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polarized - Single Vision
+--
+$75
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.67 - Single Vision
+--
+$55
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Transitions - Single Vision
+--
+$65
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Transitions - Multifocal
+--
+$65
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Polycarbonate - Multifocal
+--
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.67 - Multifocal
+--
+$55
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Ultimate
+--
+$175
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Specialty Lenses
+--
+$206
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HighIndex 1.67 - Multifocal
+--
+$55
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HD Polycarbonate - Single Vision
+--
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+HD Polycarbonate - Multifocal
+--
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Standard
+--
+$50
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Single Vision - Scratch Resistant Coating Protection
+--
+$20
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Intermediate Vision
+--
+$30
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Ultra
+--
+$140
+--
+Yes
+--
+--
+No
+4/21/25, 11:16 AM
+Versant Health
+https://ecp.versanthealth.com/member_search
+1/2
+
+
+Category
+Description
+Frequency
+Copay Amount
+Allowed Per Period
+Available
+Next Available Date
+Allowance Remaining
+Auth Required
+SpectacleLensOptions
+HighIndex 1.74 - Multifocal
+--
+$120
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Slab Off
+--
+$186
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Progressive Premium
+--
+$90
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+High Luster Edge Polish
+--
+$70
+--
+Yes
+--
+--
+No
+SpectacleLensOptions
+Oversized Lenses
+--
+No Copay
+--
+Yes
+--
+--
+No
+ContactLens
+Contact Lens (Non Plan)
+Every Jan 1st
+--
+200
+Yes
+--
+200
+No
+4/21/25, 11:16 AM
+Versant Health
+https://ecp.versanthealth.com/member_search
+2/2
+
+

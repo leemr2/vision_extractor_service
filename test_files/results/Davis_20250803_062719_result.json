@@ -1,0 +1,17 @@
+{
+  "provider": "versant",
+  "extraction_id": "901f18fc-8410-40a2-aac3-8448278b4ef2",
+  "data": {
+    "plan_name": "Versant Health",
+    "document_type": "Vision Benefits",
+    "Exam": "none",
+    "SpectacleLens": "none",
+    "SpectacleLensOptions": "none",
+    "Frame": "none",
+    "custom_id": "none",
+    "error": "Extraction failed: app.core.templates.versant_unified_template.VersantUnifiedTemplate() got multiple values for keyword argument 'provider'"
+  },
+  "confidence": 0.8,
+  "warnings": [],
+  "processing_time": 0.16253066062927246
+}

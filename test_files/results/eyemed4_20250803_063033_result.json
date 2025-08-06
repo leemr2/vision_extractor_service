@@ -1,0 +1,52 @@
+{
+  "provider": "eyemed",
+  "extraction_id": "2640b25f-9dfd-4240-8ae9-b98ed88c9822",
+  "data": {
+    "eligibility_info": {
+      "exam_eligible": true,
+      "lenses_eligible": true,
+      "frame_eligible": true,
+      "contact_lenses_eligible": true
+    },
+    "vision_benefits": {
+      "exam_services": {
+        "exam": "$10",
+        "retinal_imaging": "Up to $39"
+      },
+      "frame": "$0 copay; 20% off balance over $230",
+      "lenses": {
+        "single_vision": "$20 copay",
+        "bifocal": "$20 copay",
+        "trifocal": "$20 copay",
+        "lenticular": "20% off retail"
+      },
+      "progressive_lenses": {
+        "standard": "$85",
+        "premium_tier_1": "$105",
+        "premium_tier_2": "$115",
+        "premium_tier_3": "$130",
+        "premium_tier_4": "$85 copay; 20% off retail price less $120 allowance"
+      },
+      "lens_options": {
+        "anti_reflective_coating": {
+          "standard": "$45",
+          "premium_tier_1": "$57",
+          "premium_tier_2": "$68",
+          "premium_tier_3": "20% off retail price"
+        },
+        "polycarbonate": "$40",
+        "scratch_coating": "$15",
+        "tint": "$15",
+        "uv_treatment": "$15",
+        "other_options": "20% off retail"
+      },
+      "contact_lens_fit": {
+        "standard": "Up to $0"
+      }
+    },
+    "confidence_score": 0.86
+  },
+  "confidence": 0.8,
+  "warnings": [],
+  "processing_time": 0.4691925048828125
+}
