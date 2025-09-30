@@ -3,14 +3,18 @@ Test script to verify the pattern_base.py import is working after fixes.
 """
 import sys
 import os
+from pathlib import Path
 
-# Add the current directory to the Python path
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# Add the project root to the Python path if needed
+script_dir = Path(__file__).parent
+project_root = script_dir.parent.parent.parent  # tests/unit/patterns -> tests/unit -> tests -> project_root
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 # Test import of the pattern base classes
 try:
     from app.core.pattern_library.base.pattern_base import (
-        PatternGroup, ExtractionPattern, RegexPattern, 
+        PatternGroup, ExtractionPattern, RegexPattern,
         TablePattern, SectionPattern, FuzzyPattern,
         PatternType, ConfidenceLevel
     )

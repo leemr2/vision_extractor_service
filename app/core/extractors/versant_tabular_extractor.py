@@ -9,8 +9,7 @@ from typing import Dict, Any, Optional, List, Tuple
 import fitz  # PyMuPDF
 
 from app.core.extractors.base_extractor import BaseExtractor
-from app.core.templates.versant_unified_template import VersantUnifiedTemplate
-from app.core.templates.davis_template import BenefitValue, BenefitItem, ExamBenefits, SpectacleLensBenefits, SpectacleLensOptionsBenefits, FrameBenefits
+from app.core.templates.davis_template import DavisTemplate, BenefitValue, BenefitItem, ExamBenefits, SpectacleLensBenefits, SpectacleLensOptionsBenefits, FrameBenefits
 from app.config import davis_mapping
 from app.config.term_dictionary import find_standard_term, get_provider_specific_term, VISION_INSURANCE_TERMS
 
@@ -31,7 +30,7 @@ class VersantTabularExtractor(BaseExtractor):
         """
         super().__init__(provider_name)
         self.provider_name = provider_name
-        self.output_template = VersantUnifiedTemplate
+        self.output_template = DavisTemplate
 
     async def extract(self, document_text: str, document_path: str) -> Dict[str, Any]:
         """
@@ -274,8 +273,8 @@ class VersantTabularExtractor(BaseExtractor):
                 
                 template_data['frame_benefits'] = frame_benefits
             
-            # Create the final template with the provider name
-            result = self.output_template(provider=self.provider_name, **template_data)
+            # Create the final template
+            result = self.output_template(**template_data)
             self.extracted_data = result.to_template_json()
             logger.info(f"Successfully created template for {self.provider_name}: {document_path}")
             return self.extracted_data

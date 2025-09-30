@@ -20,9 +20,10 @@ logger = logging.getLogger(__name__)
 
 # Add the project root to the Python path if needed
 script_dir = Path(__file__).parent
-project_root = script_dir
-if project_root not in sys.path:
-    sys.path.append(str(project_root))
+project_root = script_dir.parent.parent  # tests/integration -> tests -> project_root
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+    logger.info(f"Added {project_root} to sys.path")
 
 from app.core.extractors.eyemed_extractor import EyeMedExtractor
 

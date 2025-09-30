@@ -30,11 +30,9 @@ DEFAULT_OUTPUT_PATH = r"tests/samples/Davis/results"
 
 # Add the project root to the Python path if needed
 script_dir = Path(__file__).parent
-project_root = script_dir # Assuming script is in project root
+project_root = script_dir.parent.parent.parent  # tests/unit/extractors -> tests/unit -> tests -> project_root
 if str(project_root) not in sys.path:
-    # If script is moved elsewhere, adjust project_root calculation
-    # e.g., project_root = script_dir.parent if script is in tests/
-    sys.path.append(str(project_root))
+    sys.path.insert(0, str(project_root))
     logger.info(f"Added {project_root} to sys.path")
 
 # Ensure extractor can be imported

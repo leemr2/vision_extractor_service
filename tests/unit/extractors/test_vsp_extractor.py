@@ -23,21 +23,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Default output path for VSP results
-DEFAULT_OUTPUT_PATH = r"C:\Users\drlee\Vision Extractor service\tests\samples\VSP\results"
+DEFAULT_OUTPUT_PATH = r"tests/samples/VSP/results"
 
 # Add the project root to the Python path if needed
-# Assumes the script is run from the project root or a similar context
-project_root = Path(__file__).parent.parent.parent # Adjust based on actual script location
+script_dir = Path(__file__).parent
+project_root = script_dir.parent.parent.parent  # tests/unit/extractors -> tests/unit -> tests -> project_root
 if str(project_root) not in sys.path:
-    # Find the 'app' directory dynamically if possible, otherwise assume structure
-    if (project_root / "app").exists():
-         sys.path.insert(0, str(project_root))
-    else:
-         # Fallback assuming script is run from project root
-         if (Path.cwd() / "app").exists():
-              sys.path.insert(0, str(Path.cwd()))
-         else:
-              logger.warning("Could not reliably determine project root. Ensure 'app' is in PYTHONPATH.")
+    sys.path.insert(0, str(project_root))
+    logger.info(f"Added {project_root} to sys.path")
 
 
 try:

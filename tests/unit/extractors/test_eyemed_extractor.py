@@ -7,6 +7,12 @@ import json
 import sys
 from pathlib import Path
 
+# Add the project root to the Python path if needed
+script_dir = Path(__file__).parent
+project_root = script_dir.parent.parent.parent  # tests/unit/extractors -> tests/unit -> tests -> project_root
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
 from app.core.extractors.eyemed_extractor import EyeMedExtractor
 from app.core.utils.pdf_utils import extract_text_from_pdf
 

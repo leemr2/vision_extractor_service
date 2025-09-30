@@ -9,7 +9,6 @@ from app.core.templates.vsp_template import VSPTemplate
 from app.core.templates.eyemed_template import EyeMedTemplate
 from app.core.templates.davis_template import DavisTemplate 
 from app.core.templates.spectera_template import SpecteraTemplate
-from app.core.templates.versant_unified_template import VersantUnifiedTemplate
 from app.core.models.standard_models import ProviderType
 
 class SchemaValidator:
@@ -22,14 +21,14 @@ class SchemaValidator:
     TEMPLATE_MAP = {
         ProviderType.VSP.value: VSPTemplate,
         ProviderType.EYEMED.value: EyeMedTemplate,
-        ProviderType.DAVIS.value: VersantUnifiedTemplate,
+        ProviderType.DAVIS.value: DavisTemplate,
         ProviderType.SPECTERA.value: SpecteraTemplate,
-        ProviderType.SUPERIOR.value: VersantUnifiedTemplate,
-        ProviderType.VERSANT.value: VersantUnifiedTemplate,
+        ProviderType.SUPERIOR.value: DavisTemplate,
+        ProviderType.VERSANT.value: DavisTemplate,
     }
     
     @staticmethod
-    def validate(provider_type: ProviderType, data: Dict[str, Any]) -> Union[VSPTemplate, EyeMedTemplate, DavisTemplate, SpecteraTemplate, VersantUnifiedTemplate]:
+    def validate(provider_type: ProviderType, data: Dict[str, Any]) -> Union[VSPTemplate, EyeMedTemplate, DavisTemplate, SpecteraTemplate]:
         """
         Validates the extracted data against the appropriate provider template.
         

@@ -18,7 +18,6 @@ from app.core.utils.security import redact_phi
 from app.core.utils.pdf_utils import extract_text_from_pdf
 from app.core.extractors.vsp_extractor import VSPExtractor
 from app.core.extractors.eyemed_extractor import EyeMedExtractor
-from app.core.extractors.davis_tabular_extractor import DavisTabularExtractor
 from app.core.extractors.spectera_extractor import SpecteraExtractor
 from app.core.extractors.versant_tabular_extractor import VersantTabularExtractor
 from app.core.models.standard_models import ProviderType, ExtractionResponse, DocumentMetadata

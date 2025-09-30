@@ -24,13 +24,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Default output path
-DEFAULT_OUTPUT_PATH = r"C:\Users\drlee\Vision Extractor service\tests\samples\Spectera\results"
+DEFAULT_OUTPUT_PATH = r"tests/samples/Spectera/results"
 
 # Add the project root to the Python path if needed
 script_dir = Path(__file__).parent
-project_root = script_dir
-if project_root not in sys.path:
-    sys.path.append(str(project_root))
+project_root = script_dir.parent.parent.parent  # tests/unit/extractors -> tests/unit -> tests -> project_root
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+    logger.info(f"Added {project_root} to sys.path")
 
 from app.core.extractors.spectera_extractor import SpecteraExtractor
 
