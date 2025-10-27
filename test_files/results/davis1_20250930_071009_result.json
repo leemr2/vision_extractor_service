@@ -1,14 +1,14 @@
 {
-  "provider": "superior",
-  "extraction_id": "bddc13ab-7f8e-4307-b1dc-8ba07e8c727d",
+  "provider": "davis",
+  "extraction_id": "456f5ee4-00d4-47c8-8517-23cf302ece95",
   "data": {
-    "plan_name": "Superior Vision",
+    "plan_name": "Davis Vision",
     "document_type": "Vision Benefits",
     "Exam": {
       "Routine Exam": {
         "description": "Routine Exam",
         "frequency": "Every 12 Months",
-        "copay": 10,
+        "copay": 0,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -18,9 +18,9 @@
     },
     "SpectacleLens": {
       "Bifocal - Spectacle Lens (Plan)": {
-        "description": "Bifocal - Lenticular",
+        "description": "Bifocal - Spectacle Lens (Plan)",
         "frequency": "Every 12 Months",
-        "copay": 20,
+        "copay": 0,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -28,9 +28,9 @@
         "auth_required": "none"
       },
       "Single Vision - Spectacle Lens (Plan)": {
-        "description": "Single Vision -",
+        "description": "Single Vision - Spectacle Lens (Plan)",
         "frequency": "Every 12 Months",
-        "copay": 20,
+        "copay": 0,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -38,9 +38,9 @@
         "auth_required": "none"
       },
       "Trifocal - Spectacle Lens (Plan)": {
-        "description": "Trifocal - Lenticular",
+        "description": "Trifocal - Spectacle Lens (Plan)",
         "frequency": "Every 12 Months",
-        "copay": 20,
+        "copay": 0,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -50,12 +50,30 @@
       "Single Vision - Lenticular Myodisc": "none"
     },
     "SpectacleLensOptions": {
-      "AR Coating Standard": "none",
-      "AR Coating Premium": "none",
+      "AR Coating Standard": {
+        "description": "AR Coating Standard",
+        "frequency": "Every 12 Months",
+        "copay": 35,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
+      "AR Coating Premium": {
+        "description": "AR Coating Premium",
+        "frequency": "Every 12 Months",
+        "copay": 48,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "AR Coating Ultra": {
         "description": "AR Coating Ultra",
         "frequency": "Every 12 Months",
-        "copay": 85,
+        "copay": 60,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -63,12 +81,30 @@
         "auth_required": "none"
       },
       "AR Coating Ultimate": "none",
-      "Progressive Standard": "none",
-      "Progressive Premium": "none",
+      "Progressive Standard": {
+        "description": "Progressive Standard",
+        "frequency": "Every 12 Months",
+        "copay": 40,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
+      "Progressive Premium": {
+        "description": "Progressive Premium",
+        "frequency": "Every 12 Months",
+        "copay": 40,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "Progressive Ultra": {
         "description": "Progressive Ultra",
         "frequency": "Every 12 Months",
-        "copay": 150,
+        "copay": 40,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -76,17 +112,44 @@
         "auth_required": "none"
       },
       "Progressive Ultimate": "none",
-      "Polycarbonate - Single Vision": "none",
-      "Polycarbonate Provided": "none",
+      "Polycarbonate - Single Vision": {
+        "description": "Polycarbonate - Single Vision",
+        "frequency": "Every 12 Months",
+        "copay": 30,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
+      "Polycarbonate Provided": {
+        "description": "Polycarbonate Provided",
+        "frequency": "Every 12 Months",
+        "copay": 0,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "HD Polycarbonate - Single Vision": "none",
       "HD Polycarbonate - Multifocal": "none",
-      "HighIndex 1.67 - Single Vision": "none",
+      "HighIndex 1.67 - Single Vision": {
+        "description": "HighIndex 1.67 - Single Vision",
+        "frequency": "Every 12 Months",
+        "copay": 55,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "HighIndex 1.74 - Single Vision": "none",
       "HighIndex 1.74 - Multifocal": "none",
       "Tint": {
-        "description": "Tint Gradient",
+        "description": "Tint Solid",
         "frequency": "Every 12 Months",
-        "copay": 18,
+        "copay": 0,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
@@ -100,18 +163,9 @@
       "Multivision - Tint Photogrey": "none",
       "Single Vision - Tint Plastic - Photosensitive": "none",
       "Multivision - Tint Plastic - Photosensitive": "none",
-      "Blue Light Filtering - EBS": {
-        "description": "Blue Light Filtering",
-        "frequency": "Every 12 Months",
-        "copay": 15,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
+      "Blue Light Filtering - EBS": "none",
       "Polarized": {
-        "description": "Polarized - Single",
+        "description": "Polarized",
         "frequency": "Every 12 Months",
         "copay": 75,
         "amount_allowed_per_period": "none",
@@ -120,85 +174,85 @@
         "allowance_remaining": "none",
         "auth_required": "none"
       },
-      "Intermediate Vision": {
-        "description": "Intermediate Vision",
+      "Intermediate Vision": "none",
+      "Ultraviolet Coating": {
+        "description": "Ultraviolet Coating",
         "frequency": "Every 12 Months",
-        "copay": 30,
+        "copay": 12,
         "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
         "allowance_remaining": "none",
         "auth_required": "none"
       },
-      "Ultraviolet Coating": "none",
-      "Scratch Resistant Coating": "none",
+      "Scratch Resistant Coating": {
+        "description": "Single Vision - Scratch Resistant Coating",
+        "frequency": "Every 12 Months",
+        "copay": 20,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "Scratch Resistant Coating Premium": "none",
       "Single Vision - Scratch Resistant Coating Protection": "none",
       "Multivision - Scratch Resistant Coating Protection": "none",
       "Mirror - Solid, Single & Double Gradient": "none",
-      "Edge Polish": {
-        "description": "Edge Polish",
-        "frequency": "Every 12 Months",
-        "copay": 22,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
+      "Edge Polish": "none",
       "High Luster Edge Polish": "none",
-      "Roll Polish": {
-        "description": "Roll Polish",
-        "frequency": "Every 12 Months",
-        "copay": 16,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
-      "Roll Edge": {
-        "description": "Roll Edge",
-        "frequency": "Every 12 Months",
-        "copay": 24,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
-      "Rimless Drill": {
-        "description": "Rimless Drill",
-        "frequency": "Every 12 Months",
-        "copay": 66,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
-      "Slab Off": {
-        "description": "Slab Off",
-        "frequency": "Every 12 Months",
-        "copay": 186,
-        "amount_allowed_per_period": "none",
-        "available": "Yes",
-        "next_available_date": "none",
-        "allowance_remaining": "none",
-        "auth_required": "none"
-      },
+      "Roll Polish": "none",
+      "Roll Edge": "none",
+      "Rimless Drill": "none",
+      "Slab Off": "none",
       "Blended Segment": "none",
-      "Oversized Lenses": "none"
+      "Oversized Lenses": {
+        "description": "Oversized Lenses",
+        "frequency": "Every 12 Months",
+        "copay": 0,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      }
     },
     "Frame": {
-      "Premier Frame": "none",
-      "Designer Frame": "none",
-      "Fashion Frame": "none",
+      "Premier Frame": {
+        "description": "Premier Frame",
+        "frequency": "Every 12 Months",
+        "copay": 25,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
+      "Designer Frame": {
+        "description": "Designer Frame",
+        "frequency": "Every 12 Months",
+        "copay": 0,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
+      "Fashion Frame": {
+        "description": "Fashion Frame",
+        "frequency": "Every 12 Months",
+        "copay": 0,
+        "amount_allowed_per_period": "none",
+        "available": "Yes",
+        "next_available_date": "none",
+        "allowance_remaining": "none",
+        "auth_required": "none"
+      },
       "Frame (Non Plan)": {
         "description": "Frame (Non Plan)",
         "frequency": "Every 12 Months",
-        "copay": 20,
-        "amount_allowed_per_period": 150,
+        "copay": 150,
+        "amount_allowed_per_period": "none",
         "available": "Yes",
         "next_available_date": "none",
         "allowance_remaining": "none",
@@ -210,5 +264,5 @@
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.06334161758422852
+  "processing_time": 0.2527604103088379
 }

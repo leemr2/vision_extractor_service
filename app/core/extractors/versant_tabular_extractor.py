@@ -161,13 +161,36 @@ class VersantTabularExtractor(BaseExtractor):
             if 'SpectacleLensOptions' in benefit_categories:
                 options_benefits = SpectacleLensOptionsBenefits()
                 
-                # Map of description keywords to model field names
+                # Map of description keywords to model field names with flexible patterns
                 options_mapping = {
-                    # Anti-reflective coatings
+                    # Anti-reflective coatings - multiple pattern variations
                     'ar coating standard': 'ar_coating_standard',
+                    'anti-reflective standard': 'ar_coating_standard',
+                    'ar standard': 'ar_coating_standard',
+                    'standard ar': 'ar_coating_standard',
+                    'standard ar coating': 'ar_coating_standard',
+                    'anti-reflective coating standard': 'ar_coating_standard',
+                    
                     'ar coating premium': 'ar_coating_premium',
+                    'anti-reflective premium': 'ar_coating_premium',
+                    'ar premium': 'ar_coating_premium',
+                    'premium ar': 'ar_coating_premium',
+                    'premium ar coating': 'ar_coating_premium',
+                    'anti-reflective coating premium': 'ar_coating_premium',
+                    
                     'ar coating ultra': 'ar_coating_ultra',
+                    'anti-reflective ultra': 'ar_coating_ultra',
+                    'ar ultra': 'ar_coating_ultra',
+                    'ultra ar': 'ar_coating_ultra',
+                    'ultra ar coating': 'ar_coating_ultra',
+                    'anti-reflective coating ultra': 'ar_coating_ultra',
+                    
                     'ar coating ultimate': 'ar_coating_ultimate',
+                    'anti-reflective ultimate': 'ar_coating_ultimate',
+                    'ar ultimate': 'ar_coating_ultimate',
+                    'ultimate ar': 'ar_coating_ultimate',
+                    'ultimate ar coating': 'ar_coating_ultimate',
+                    'anti-reflective coating ultimate': 'ar_coating_ultimate',
                     
                     # Progressive lenses
                     'progressive standard': 'progressive_standard',
@@ -239,7 +262,38 @@ class VersantTabularExtractor(BaseExtractor):
                             # Set the field on the options_benefits object
                             setattr(options_benefits, field_name, benefit_item)
                             matched = True
+                            logger.info(f"Matched SpectacleLensOptions: '{key}' -> {field_name} with value {parsed_value}")
                             break
+                    
+                    # Enhanced fallback matching for AR coatings
+                    if not matched and 'ar' in description and 'coating' in description:
+                        logger.info(f"Attempting fallback AR matching for: '{description}'")
+                        if 'standard' in description:
+                            field_name = 'ar_coating_standard'
+                            matched = True
+                        elif 'premium' in description:
+                            field_name = 'ar_coating_premium'
+                            matched = True
+                        elif 'ultra' in description:
+                            field_name = 'ar_coating_ultra'
+                            matched = True
+                        elif 'ultimate' in description:
+                            field_name = 'ar_coating_ultimate'
+                            matched = True
+                        
+                        if matched:
+                            benefit_item = BenefitItem(
+                                description=row.get('Description'),
+                                frequency=frequency,
+                                copay=parsed_value,
+                                available="Yes" if row.get('Available', True) else "No"
+                            )
+                            setattr(options_benefits, field_name, benefit_item)
+                            logger.info(f"Fallback matched AR coating: '{description}' -> {field_name} with value {parsed_value}")
+                    
+                    # Log unmatched items for debugging
+                    if not matched:
+                        logger.warning(f"Unmatched SpectacleLensOptions item: '{description}' with copay '{row.get('Copay')}'")
                 
                 template_data['spectacle_lens_options_benefits'] = options_benefits
             
@@ -328,8 +382,8 @@ class VersantTabularExtractor(BaseExtractor):
         # Split into lines for processing
         lines = table_text.split('\n')
         
-        # Strict sequential parsing approach - this is the primary approach
-        logger.info("Using strict sequential parsing approach for document rows")
+        # Improved parsing approach - handles multiple items per category
+        logger.info("Using improved parsing approach for document rows")
         
         i = 0
         while i < len(lines):
@@ -338,45 +392,64 @@ class VersantTabularExtractor(BaseExtractor):
             # Check if this line is exactly one of our category types
             if line in category_types:
                 category = line
+                logger.info(f"Found category: {category}")
                 
-                # Description should be the next line
-                if i + 1 < len(lines):
-                    description = lines[i + 1].strip()
-                    if description and description not in category_types:
+                # Process all items under this category until we hit the next category
+                j = i + 1
+                items_processed = 0
+                max_items_per_category = 20  # Prevent infinite loops
+                
+                while j < len(lines) and items_processed < max_items_per_category:
+                    current_line = lines[j].strip()
+                    
+                    # If we hit another category, stop processing this one
+                    if current_line in category_types:
+                        break
+                    
+                    # Skip empty lines
+                    if not current_line:
+                        j += 1
+                        continue
+                    
+                    # Check if this looks like a description line
+                    # (not a frequency, copay, or other metadata line)
+                    if (not re.match(r'Every \d+ Months', current_line) and 
+                        not re.match(r'\$\d+(?:\.\d+)?', current_line) and
+                        not re.match(r'No Copay', current_line) and
+                        current_line not in ['Yes', 'No'] and
+                        not current_line.isdigit()):
                         
-                        # Look for frequency line (contains "Every 12 Months")
-                        frequency_line_idx = i + 2  # Expect frequency on line x+2
+                        description = current_line
+                        logger.info(f"Processing item under {category}: {description}")
+                        
+                        # Look for frequency in the next few lines
                         frequency_months = "12"  # Default
-                        if frequency_line_idx < len(lines):
-                            freq_line = lines[frequency_line_idx].strip()
+                        for k in range(j + 1, min(j + 4, len(lines))):
+                            freq_line = lines[k].strip()
                             if "Every" in freq_line and "Months" in freq_line:
-                                
-                                # Extract frequency months
                                 freq_match = re.search(r"Every (\d+) Months", freq_line)
                                 if freq_match:
                                     frequency_months = freq_match.group(1)
+                                    break
                         
                         # Get copay - try next few lines
                         copay = "--"  # Default
-                        copay_found = False
-                        for j in range(i + 3, min(i + 6, len(lines))):
-                            copay_line = lines[j].strip()
+                        for k in range(j + 1, min(j + 5, len(lines))):
+                            copay_line = lines[k].strip()
                             
                             if "$" in copay_line:
                                 copay_match = re.search(r"\$(\d+(?:\.\d+)?)", copay_line)
                                 if copay_match:
                                     copay = f"${copay_match.group(1)}"
-                                    copay_found = True
                                     break
                             elif "No Copay" in copay_line:
                                 copay = "No Copay"
-                                copay_found = True
                                 break
                         
                         # Check for availability
                         available = True  # Default to True
-                        for j in range(i + 3, min(i + 8, len(lines))):
-                            avail_line = lines[j].strip()
+                        for k in range(j + 1, min(j + 6, len(lines))):
+                            avail_line = lines[k].strip()
                             if avail_line == "No":
                                 available = False
                                 break
@@ -386,8 +459,8 @@ class VersantTabularExtractor(BaseExtractor):
                         
                         # Look for allowed amount
                         allowed_per_period = None
-                        for j in range(i + 3, min(i + 8, len(lines))):
-                            allowed_line = lines[j].strip()
+                        for k in range(j + 1, min(j + 6, len(lines))):
+                            allowed_line = lines[k].strip()
                             # Check for a numeric value in a cell that would typically be the Allowed Per Period column
                             if allowed_line.isdigit() and len(allowed_line) <= 5:
                                 allowed_per_period = allowed_line
@@ -406,10 +479,13 @@ class VersantTabularExtractor(BaseExtractor):
                             row['AllowedPerPeriod'] = allowed_per_period
                         
                         rows.append(row)
+                        items_processed += 1
+                        logger.info(f"Added row: {row}")
+                    
+                    j += 1
                 
-                # Skip ahead to avoid processing the same section multiple times
-                # This helps with the strict sequential parsing
-                i += 6
+                # Move to the next category (or continue from where we left off)
+                i = j
             else:
                 i += 1
         
