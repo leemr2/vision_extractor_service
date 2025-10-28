@@ -1,0 +1,164 @@
+{
+  "provider": "superior",
+  "extraction_id": "480deb00-d4f0-42d3-a9ba-8f2ff24d2703",
+  "data": {
+    "plan_name": "Superior Vision",
+    "document_type": "Vision Benefits",
+    "provider": "Davis Vision",
+    "exam_benefits": {
+      "routine_exam": {
+        "description": "Routine Exam",
+        "copay": 25,
+        "allowance": null
+      }
+    },
+    "spectacle_lens_benefits": {
+      "bifocal_spectacle_lens": {
+        "description": "Bifocal - Lenticular",
+        "copay": 25,
+        "allowance": null
+      },
+      "single_vision_spectacle_lens": {
+        "description": "Single Vision -",
+        "copay": 25,
+        "allowance": null
+      },
+      "trifocal_spectacle_lens": {
+        "description": "Trifocal -",
+        "copay": 25,
+        "allowance": null
+      },
+      "single_vision_lenticular_myodisc": null
+    },
+    "spectacle_lens_options_benefits": {
+      "ar_coating_standard": {
+        "description": "AR Coating Standard",
+        "copay": 50,
+        "allowance": null
+      },
+      "ar_coating_premium": {
+        "description": "AR Coating Premium",
+        "copay": 70,
+        "allowance": null
+      },
+      "ar_coating_ultra": {
+        "description": "AR Coating Ultra",
+        "copay": 85,
+        "allowance": null
+      },
+      "ar_coating_ultimate": {
+        "description": "AR Coating Ultimate",
+        "copay": 120,
+        "allowance": null
+      },
+      "progressive_standard": {
+        "description": "Progressive Standard",
+        "copay": 55,
+        "allowance": null
+      },
+      "progressive_premium": {
+        "description": "Progressive Premium",
+        "copay": 110,
+        "allowance": null
+      },
+      "progressive_ultra": {
+        "description": "Progressive Ultra",
+        "copay": 150,
+        "allowance": null
+      },
+      "progressive_ultimate": {
+        "description": "Progressive Ultimate",
+        "copay": 225,
+        "allowance": null
+      },
+      "polycarbonate_single_vision": {
+        "description": "Polycarbonate - Single Vision",
+        "copay": 40,
+        "allowance": null
+      },
+      "polycarbonate_provided": null,
+      "hd_polycarbonate_single_vision": null,
+      "hd_polycarbonate_multifocal": {
+        "description": "HD Polycarbonate - Multifocal",
+        "copay": 60,
+        "allowance": null
+      },
+      "high_index_167_single_vision": {
+        "description": "HighIndex 1.67 - Single Vision",
+        "copay": 80,
+        "allowance": null
+      },
+      "high_index_174_single_vision": {
+        "description": "HighIndex 1.74 - Single Vision",
+        "copay": 120,
+        "allowance": null
+      },
+      "high_index_174_multifocal": {
+        "description": "HighIndex 1.74 - Multifocal",
+        "copay": 120,
+        "allowance": null
+      },
+      "tint": {
+        "description": "Tint Gradient",
+        "copay": 18,
+        "allowance": null
+      },
+      "tint_solid": null,
+      "tint_gradient": null,
+      "tint_gg": null,
+      "single_vision_tint_photogrey": null,
+      "multivision_tint_photogrey": null,
+      "single_vision_tint_plastic_photosensitive": null,
+      "multivision_tint_plastic_photosensitive": null,
+      "blue_light_filtering_ebs": {
+        "description": "Blue Light Filtering",
+        "copay": 15,
+        "allowance": null
+      },
+      "polarized": {
+        "description": "Polarized - Single Vision",
+        "copay": 75,
+        "allowance": null
+      },
+      "intermediate_vision": {
+        "description": "Intermediate Vision",
+        "copay": 30,
+        "allowance": null
+      },
+      "ultraviolet_coating": {
+        "description": "UV Coat",
+        "copay": 12,
+        "allowance": null
+      },
+      "scratch_resistant_coating": null,
+      "scratch_resistant_coating_premium": null,
+      "single_vision_scratch_resistant_coating_protection": null,
+      "multivision_scratch_resistant_coating_protection": null,
+      "mirror_solid_single_double_gradient": null,
+      "edge_polish": null,
+      "high_luster_edge_polish": null,
+      "roll_polish": null,
+      "roll_edge": null,
+      "rimless_drill": null,
+      "slab_off": null,
+      "blended_segment": null,
+      "oversized_lenses": null
+    },
+    "frame_benefits": {
+      "premier_frame": null,
+      "designer_frame": null,
+      "fashion_frame": null,
+      "frame_non_plan": {
+        "description": "Frame (Non Plan)",
+        "copay": 25,
+        "allowance": 130
+      }
+    },
+    "contact_lens_benefits": null,
+    "custom_id": null,
+    "error": null
+  },
+  "confidence": 0.8,
+  "warnings": [],
+  "processing_time": 0.7885141372680664
+}

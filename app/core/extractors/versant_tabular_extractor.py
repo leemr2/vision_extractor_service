@@ -45,19 +45,48 @@ class VersantTabularExtractor(BaseExtractor):
         """
         logger.info(f"Starting {self.provider_name} extraction for: {document_path}")
         full_text = ""
+        rows = []
         
         try:
-            # 1. Load PDF & Extract Text
+            # 1. Load PDF & Try table detection first
             doc = fitz.open(document_path)
-            for page_num, page in enumerate(doc):
-                # Extract text using layout mode for preserving tabular structure
-                full_text += page.get_text("text") + "\n\n"
-
+            parsing_method_used = None
+            
+            # Try PyMuPDF table detection first (PRIMARY METHOD)
+            logger.info("=" * 60)
+            logger.info("PARSING METHOD 1: Attempting PyMuPDF table detection...")
+            logger.info("=" * 60)
+            rows = await self._extract_tables_from_pdf(doc)
+            
+            if rows and len(rows) > 0:
+                parsing_method_used = "PyMuPDF Table Detection"
+                logger.info(f"✓ SUCCESS: PyMuPDF table detection extracted {len(rows)} rows")
+            else:
+                logger.info("✗ FALLBACK: Table detection found no rows, falling back to text extraction")
+                logger.info("=" * 60)
+                logger.info("PARSING METHOD 2: Text-based line-by-line parsing...")
+                logger.info("=" * 60)
+                
+                # Fall back to text-based extraction if table detection fails
+                for page_num, page in enumerate(doc):
+                    # Extract text using layout mode for preserving tabular structure
+                    full_text += page.get_text("text") + "\n\n"
+                
+                # 2. Parse the tabular data using improved text-based parser (FALLBACK METHOD)
+                rows = await self._parse_table_rows(full_text)
+                
+                if rows and len(rows) > 0:
+                    parsing_method_used = "Text-based Line Parser"
+                    logger.info(f"✓ SUCCESS: Text-based parser extracted {len(rows)} rows")
+                else:
+                    parsing_method_used = "None (extraction failed)"
+                    logger.warning(f"✗ FAILURE: All parsing methods failed to extract rows")
+            
             doc.close()
-
-            # 2. Parse the tabular data
-            rows = await self._parse_table_rows(full_text)
-            logger.info(f"Extracted {len(rows)} rows from tabular data")
+            
+            logger.info("=" * 60)
+            logger.info(f"FINAL RESULT: Extracted {len(rows)} rows using: {parsing_method_used}")
+            logger.info("=" * 60)
             
             # 3. Create template with extracted data
             template_data = {
@@ -182,14 +211,19 @@ class VersantTabularExtractor(BaseExtractor):
                     
                     # Polycarbonate options
                     'polycarbonate - single vision': 'polycarbonate_single_vision',
+                    'polycarbonate single vision': 'polycarbonate_single_vision',
                     'polycarbonate provided': 'polycarbonate_provided',
                     'hd polycarbonate - single vision': 'hd_polycarbonate_single_vision',
                     'hd polycarbonate - multifocal': 'hd_polycarbonate_multifocal',
+                    'hd polycarbonate multifocal': 'hd_polycarbonate_multifocal',
                     
                     # High index lenses
                     'highindex 1.67 - single vision': 'high_index_167_single_vision',
                     'highindex 1.74 - single vision': 'high_index_174_single_vision',
                     'highindex 1.74 - multifocal': 'high_index_174_multifocal',
+                    'high index 1.67 - single vision': 'high_index_167_single_vision',
+                    'high index 1.74 - single vision': 'high_index_174_single_vision',
+                    'high index 1.74 - multifocal': 'high_index_174_multifocal',
                     
                     # Tints and photochromic options
                     'tint': 'tint',
@@ -207,6 +241,8 @@ class VersantTabularExtractor(BaseExtractor):
                     'polarized': 'polarized',
                     'intermediate vision': 'intermediate_vision',
                     'ultraviolet coating': 'ultraviolet_coating',
+                    'uv coating': 'ultraviolet_coating',  # NEW - Alternative name
+                    'uv coat': 'ultraviolet_coating',  # NEW - Alternative name
                     'scratch resistant coating': 'scratch_resistant_coating',
                     'scratch resistant coating premium': 'scratch_resistant_coating_premium',
                     'single vision - scratch resistant coating protection': 'single_vision_scratch_resistant_coating_protection',
@@ -227,6 +263,10 @@ class VersantTabularExtractor(BaseExtractor):
                 for row in benefit_categories['SpectacleLensOptions']:
                     description = row.get('Description', '').strip().lower()
                     parsed_value = await self._parse_value(row.get('Copay'))
+
+                    # Skip spurious rows that are clearly not benefit descriptions
+                    if self._is_spurious_row(description):
+                        continue
 
                     matched = False
                     # Try to find a match in our mapping
@@ -345,6 +385,181 @@ class VersantTabularExtractor(BaseExtractor):
             )
             return error_result.to_template_json()
 
+    async def _extract_tables_from_pdf(self, doc: fitz.Document) -> List[Dict[str, Any]]:
+        """
+        Extract tables from PDF using PyMuPDF's table detection.
+        
+        Args:
+            doc: PyMuPDF document object
+            
+        Returns:
+            List of dictionaries representing each row with its values
+        """
+        rows = []
+        
+        # Define category types that match the benefit headers in the template
+        category_types = ["Exam", "SpectacleLens", "SpectacleLensOptions", "Frame", "ContactLens"]
+        
+        try:
+            for page_num, page in enumerate(doc):
+                logger.info(f"Processing page {page_num + 1} for table detection")
+                
+                # Find tables on the page
+                tables = page.find_tables()
+                
+                if not tables or len(tables.tables) == 0:
+                    logger.info(f"No tables found on page {page_num + 1}")
+                    continue
+                
+                logger.info(f"Found {len(tables.tables)} table(s) on page {page_num + 1}")
+                
+                for table_idx, table in enumerate(tables.tables):
+                    logger.info(f"Processing table {table_idx + 1}")
+                    
+                    # Extract table data
+                    table_data = table.extract()
+                    
+                    if not table_data or len(table_data) < 2:
+                        logger.info(f"Table {table_idx + 1} has insufficient data")
+                        continue
+                    
+                    # Try to identify column headers
+                    header_row = None
+                    data_start_row = 0
+                    
+                    # Look for header row (usually contains "Description", "Copay", etc.)
+                    for i, row in enumerate(table_data[:5]):  # Check first 5 rows
+                        row_text = ' '.join([str(cell).lower() for cell in row if cell])
+                        if any(header in row_text for header in ['description', 'copay', 'frequency', 'available']):
+                            header_row = [str(cell).strip() if cell else "" for cell in row]
+                            data_start_row = i + 1
+                            logger.info(f"Found header row at index {i}: {header_row}")
+                            break
+                    
+                    # If no header row found, try to infer columns based on common patterns
+                    if header_row is None:
+                        logger.info("No explicit header row found, using default column structure")
+                        # Common column order: Category/Description, Frequency, Copay, Available, Allowed Per Period
+                        header_row = ['Description', 'Frequency', 'Copay', 'Available', 'AllowedPerPeriod']
+                        data_start_row = 0
+                    
+                    # Normalize header names for mapping
+                    col_map = {}
+                    for idx, header in enumerate(header_row):
+                        header_lower = header.lower().strip()
+                        if 'description' in header_lower or 'benefit' in header_lower or 'category' in header_lower:
+                            col_map['description'] = idx
+                        elif 'copay' in header_lower or 'co-pay' in header_lower or 'cost' in header_lower:
+                            col_map['copay'] = idx
+                        elif 'frequency' in header_lower or 'month' in header_lower:
+                            col_map['frequency'] = idx
+                        elif 'available' in header_lower or 'covered' in header_lower:
+                            col_map['available'] = idx
+                        elif 'allowed' in header_lower or 'allowance' in header_lower:
+                            col_map['allowed'] = idx
+                    
+                    logger.info(f"Column mapping: {col_map}")
+                    
+                    # Current category context
+                    current_category = None
+                    
+                    # Process data rows
+                    for row_idx in range(data_start_row, len(table_data)):
+                        row = table_data[row_idx]
+                        
+                        if not row or all(not cell for cell in row):
+                            continue  # Skip empty rows
+                        
+                        # Convert cells to strings
+                        row_cells = [str(cell).strip() if cell else "" for cell in row]
+                        
+                        # Check if this row is a category header
+                        first_cell = row_cells[0] if row_cells else ""
+                        if first_cell in category_types:
+                            current_category = first_cell
+                            logger.info(f"Found category: {current_category}")
+                            continue
+                        
+                        # Skip if we don't have a current category
+                        if not current_category:
+                            # Try to infer category from description
+                            if 'exam' in first_cell.lower():
+                                current_category = 'Exam'
+                            elif 'frame' in first_cell.lower():
+                                current_category = 'Frame'
+                            elif 'contact' in first_cell.lower():
+                                current_category = 'ContactLens'
+                            elif any(x in first_cell.lower() for x in ['progressive', 'ar coating', 'polycarbonate', 'tint']):
+                                current_category = 'SpectacleLensOptions'
+                            elif any(x in first_cell.lower() for x in ['lens', 'bifocal', 'trifocal', 'single vision']):
+                                current_category = 'SpectacleLens'
+                            else:
+                                continue  # Skip rows without category context
+                        
+                        # Extract data based on column mapping
+                        description = row_cells[col_map.get('description', 0)] if len(row_cells) > col_map.get('description', 0) else ""
+                        
+                        # Skip empty descriptions or category headers
+                        if not description or description in category_types:
+                            continue
+                        
+                        # Skip spurious rows (column headers, fragments, etc.)
+                        if self._is_spurious_row(description.lower()):
+                            logger.debug(f"Skipping spurious row in table detection: '{description}'")
+                            continue
+                        
+                        # Extract other fields
+                        copay = ""
+                        frequency = "12"  # Default
+                        available = True  # Default
+                        allowed_per_period = None
+                        
+                        if 'copay' in col_map and len(row_cells) > col_map['copay']:
+                            copay = row_cells[col_map['copay']]
+                        
+                        if 'frequency' in col_map and len(row_cells) > col_map['frequency']:
+                            freq_str = row_cells[col_map['frequency']]
+                            freq_match = re.search(r'(\d+)', freq_str)
+                            if freq_match:
+                                frequency = freq_match.group(1)
+                        
+                        if 'available' in col_map and len(row_cells) > col_map['available']:
+                            avail_str = row_cells[col_map['available']].lower()
+                            available = 'yes' in avail_str or 'covered' in avail_str or avail_str == ''
+                        
+                        if 'allowed' in col_map and len(row_cells) > col_map['allowed']:
+                            allowed_str = row_cells[col_map['allowed']]
+                            allowed_match = re.search(r'(\d+)', allowed_str)
+                            if allowed_match:
+                                allowed_per_period = allowed_match.group(1)
+                        
+                        # Create row dictionary
+                        row_dict = {
+                            'Category': current_category,
+                            'Description': description,
+                            'Copay': copay if copay else "--",
+                            'Available': available,
+                            'FrequencyMonths': frequency
+                        }
+                        
+                        if allowed_per_period:
+                            row_dict['AllowedPerPeriod'] = allowed_per_period
+                        
+                        rows.append(row_dict)
+                        logger.info(f"Extracted row via table detection: {row_dict}")
+            
+            logger.info(f"Table detection extracted {len(rows)} total rows")
+            
+            # Merge split rows (e.g., "AR Coating" + "Premium" -> "AR Coating Premium")
+            if rows:
+                rows = self._merge_split_rows(rows)
+            
+            return rows
+            
+        except Exception as e:
+            logger.warning(f"Table detection failed: {str(e)}", exc_info=True)
+            return []
+
     async def _parse_table_rows(self, text: str) -> List[Dict[str, Any]]:
         """
         Parse the tabular data into a structured list of rows using a strict sequential parsing approach.
@@ -398,9 +613,9 @@ class VersantTabularExtractor(BaseExtractor):
                 # Process all items under this category until we hit the next category
                 j = i + 1
                 items_processed = 0
-                max_items_per_category = 20  # Prevent infinite loops
+                # REMOVED: max_items_per_category limit to capture all items (e.g., 43+ SpectacleLensOptions)
                 
-                while j < len(lines) and items_processed < max_items_per_category:
+                while j < len(lines):
                     current_line = lines[j].strip()
                     
                     # If we hit another category, stop processing this one
@@ -490,13 +705,16 @@ class VersantTabularExtractor(BaseExtractor):
             else:
                 i += 1
         
-        # If we found rows, return them
+        # If we found rows, merge any split descriptions and return
         if rows:
-            logger.info(f"Successfully parsed {len(rows)} rows using strict sequential parsing")
+            logger.info(f"✓ SUCCESS: Strict sequential parsing extracted {len(rows)} rows")
+            rows = self._merge_split_rows(rows)
             return rows
         
         # If strict parsing didn't work, fall back to alternative methods
-        logger.info("Strict parsing found no rows, attempting looser pattern-based parsing")
+        logger.info("=" * 60)
+        logger.info("PARSING METHOD 2b: Strict parsing found no rows, attempting looser pattern-based parsing")
+        logger.info("=" * 60)
         
         # Find all category indexes
         category_indexes = []
@@ -576,8 +794,164 @@ class VersantTabularExtractor(BaseExtractor):
                 
                 rows.append(row)
         
-        logger.info(f"Parsed {len(rows)} rows from table")
+        if rows:
+            logger.info(f"✓ SUCCESS: Looser pattern-based parsing extracted {len(rows)} rows")
+            rows = self._merge_split_rows(rows)
+        else:
+            logger.info(f"✗ FAILURE: Looser pattern-based parsing found no rows")
+        
         return rows
+    
+    def _merge_split_rows(self, rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Merge consecutive rows that are parts of the same benefit item.
+        
+        Some PDF tables split benefit descriptions across multiple lines/rows:
+        Row 1: "AR Coating" - $70
+        Row 2: "Premium" - $70
+        
+        This method merges them into:
+        Row 1: "AR Coating Premium" - $70
+        
+        Args:
+            rows: List of extracted table rows
+            
+        Returns:
+            List of merged rows
+        """
+        if not rows:
+            return rows
+        
+        # Qualifier words that indicate a row is part of a split description
+        qualifier_words = {
+            'premium', 'standard', 'ultra', 'ultimate',
+            'single vision', 'multifocal', 'bifocal', 'trifocal',
+            'vision',  # For cases like "Glass - Single" + "Vision"
+        }
+        
+        merged_rows = []
+        i = 0
+        
+        while i < len(rows):
+            current_row = rows[i].copy()
+            current_desc = current_row.get('Description', '').strip().lower()
+            current_copay = current_row.get('Copay', '')
+            
+            # Look ahead to see if next rows should be merged
+            merged_count = 0
+            j = i + 1
+            
+            while j < len(rows):
+                next_row = rows[j]
+                next_desc = next_row.get('Description', '').strip().lower()
+                next_copay = next_row.get('Copay', '')
+                
+                # Check if this row should be merged with current row
+                should_merge = False
+                
+                # Condition 1: Same copay AND next description is a qualifier word
+                if (current_copay == next_copay and 
+                    next_desc in qualifier_words):
+                    should_merge = True
+                    logger.debug(f"Merging qualifier: '{current_desc}' + '{next_desc}'")
+                
+                # Condition 2: Current description ends with dash/hyphen (incomplete)
+                # AND next is a qualifier (like "HD Polycarbonate -" + "Multifocal")
+                elif (current_copay == next_copay and
+                      current_desc.endswith('-') and
+                      next_desc in qualifier_words):
+                    should_merge = True
+                    logger.debug(f"Merging hyphenated: '{current_desc}' + '{next_desc}'")
+                
+                if should_merge:
+                    # Merge the descriptions
+                    current_row['Description'] = (
+                        current_row.get('Description', '').strip() + ' ' + 
+                        next_row.get('Description', '').strip()
+                    ).strip()
+                    current_desc = current_row.get('Description', '').lower()
+                    merged_count += 1
+                    j += 1
+                else:
+                    # No more rows to merge
+                    break
+            
+            # Add the merged row
+            merged_rows.append(current_row)
+            
+            # Skip the rows we merged
+            i += merged_count + 1
+            
+            if merged_count > 0:
+                logger.info(f"Merged {merged_count} row(s) into: '{current_row.get('Description')}'")
+        
+        logger.info(f"Row merging: {len(rows)} rows -> {len(merged_rows)} rows")
+        return merged_rows
+    
+    def _is_spurious_row(self, description: str) -> bool:
+        """
+        Check if a row is spurious (not a real benefit description).
+        
+        Args:
+            description: Lowercase description text to check
+            
+        Returns:
+            True if the row should be skipped, False otherwise
+        """
+        if not description:
+            return True
+        
+        # Skip very short strings (likely fragments)
+        if len(description) < 3:
+            return True
+        
+        # Skip common column headers and metadata
+        spurious_keywords = [
+            'category', 'description', 'frequency', 'copay', 'amount',
+            'allowed', 'per period', 'available', 'next', 'date',
+            'allowance', 'remaining', 'auth', 'required',
+            # Skip frequency/period indicators
+            '1 per 12', '1 per 24', 'per 12', 'per 24', 'months', 'month',
+            '1 every plan', 'every plan', 'year',  # Common frequency fragments
+            # Skip status indicators  
+            'covered', 'not covered', 'yes', 'no',
+            # Skip standalone symbols
+            '--', '—', '-', '•', '*',
+        ]
+        
+        # Check if description is exactly a spurious keyword
+        if description in spurious_keywords:
+            return True
+        
+        # Skip if description is only "covered" or similar status
+        if description in ['covered', 'not covered', 'yes', 'no']:
+            return True
+        
+        # Skip if description matches frequency pattern exactly
+        if re.match(r'^(\d+\s*per\s*\d+|months?)$', description):
+            return True
+        
+        # Skip rows that are just fragments from other columns
+        # (e.g., "- ebs" without the main description)
+        if description.startswith('- ') and len(description) < 10:
+            return True
+        
+        # Skip incomplete lens type descriptions (clear fragments only)
+        incomplete_fragments = [
+            'coating premium',  # Fragment of "Scratch Resistant Coating Premium"
+            'coating',  # Fragment alone (but allow "ultraviolet coating", "scratch resistant coating", etc.)
+        ]
+        
+        # Only skip if it's exactly one of these fragments
+        if description in incomplete_fragments:
+            return True
+        
+        # Skip single-word generic material names that need context
+        # (e.g., "polycarbonate" alone, but allow "Polycarbonate - Single Vision")
+        if description == 'polycarbonate' or description == 'scratch resistant':
+            return True
+        
+        return False
     
     async def _parse_value(self, value_str: Optional[str]) -> BenefitValue:
         """Parse extracted value string into appropriate format."""
