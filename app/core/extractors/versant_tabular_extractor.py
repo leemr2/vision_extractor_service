@@ -9,7 +9,7 @@ from typing import Dict, Any, Optional, List, Tuple
 import fitz  # PyMuPDF
 
 from app.core.extractors.base_extractor import BaseExtractor
-from app.core.templates.davis_template import DavisTemplate, BenefitValue, BenefitItem, ExamBenefits, SpectacleLensBenefits, SpectacleLensOptionsBenefits, FrameBenefits
+from app.core.templates.davis_template import DavisTemplate, BenefitValue, SimplifiedBenefitItem, ExamBenefits, SpectacleLensBenefits, SpectacleLensOptionsBenefits, FrameBenefits, ContactLensBenefits
 from app.config import davis_mapping
 from app.config.term_dictionary import find_standard_term, get_provider_specific_term, VISION_INSURANCE_TERMS
 
@@ -82,15 +82,12 @@ class VersantTabularExtractor(BaseExtractor):
                     description = row.get('Description', '').strip()
                     if 'routine eye exam' in description.lower() or 'eye examination' in description.lower() or 'exam' in description.lower():
                         parsed_value = await self._parse_value(row.get('Copay'))
-                        frequency = f"Every {row.get('FrequencyMonths', '12')} Months" if row.get('FrequencyMonths') else None
-                        
-                        exam_benefits.routine_exam = BenefitItem(
+
+                        exam_benefits.routine_exam = SimplifiedBenefitItem(
                             description=description,
-                            frequency=frequency,
-                            copay=parsed_value,
-                            available="Yes" if row.get('Available', True) else "No"
+                            copay=parsed_value
                         )
-                
+
                 template_data['exam_benefits'] = exam_benefits
             
             # Process SpectacleLens benefits
@@ -99,62 +96,47 @@ class VersantTabularExtractor(BaseExtractor):
                 for row in benefit_categories['SpectacleLens']:
                     description = row.get('Description', '').strip()
                     parsed_value = await self._parse_value(row.get('Copay'))
-                    frequency = f"Every {row.get('FrequencyMonths', '12')} Months" if row.get('FrequencyMonths') else None
-                    
+
                     if 'bifocal' in description.lower():
-                        spectacle_lens_benefits.bifocal_spectacle_lens = BenefitItem(
+                        spectacle_lens_benefits.bifocal_spectacle_lens = SimplifiedBenefitItem(
                             description=description,
-                            frequency=frequency,
-                            copay=parsed_value,
-                            available="Yes" if row.get('Available', True) else "No"
+                            copay=parsed_value
                         )
                     elif 'single vision - lenticular myodisc' in description.lower():
-                        spectacle_lens_benefits.single_vision_lenticular_myodisc = BenefitItem(
+                        spectacle_lens_benefits.single_vision_lenticular_myodisc = SimplifiedBenefitItem(
                             description=description,
-                            frequency=frequency,
-                            copay=parsed_value,
-                            available="Yes" if row.get('Available', True) else "No"
+                            copay=parsed_value
                         )
                     elif 'single vision' in description.lower() and 'lenticular' not in description.lower():
-                        spectacle_lens_benefits.single_vision_spectacle_lens = BenefitItem(
+                        spectacle_lens_benefits.single_vision_spectacle_lens = SimplifiedBenefitItem(
                             description=description,
-                            frequency=frequency,
-                            copay=parsed_value,
-                            available="Yes" if row.get('Available', True) else "No"
+                            copay=parsed_value
                         )
                     elif 'trifocal' in description.lower():
-                        spectacle_lens_benefits.trifocal_spectacle_lens = BenefitItem(
+                        spectacle_lens_benefits.trifocal_spectacle_lens = SimplifiedBenefitItem(
                             description=description,
-                            frequency=frequency,
-                            copay=parsed_value,
-                            available="Yes" if row.get('Available', True) else "No"
+                            copay=parsed_value
                         )
                     elif 'spectacle lens (plan)' in description.lower() or 'spectacle lenses' in description.lower():
                         # Generic spectacle lens - add to all types that don't have a value yet
                         if not spectacle_lens_benefits.single_vision_spectacle_lens:
-                            spectacle_lens_benefits.single_vision_spectacle_lens = BenefitItem(
+                            spectacle_lens_benefits.single_vision_spectacle_lens = SimplifiedBenefitItem(
                                 description=description,
-                                frequency=frequency,
-                                copay=parsed_value,
-                                available="Yes" if row.get('Available', True) else "No"
+                                copay=parsed_value
                             )
-                        
+
                         if not spectacle_lens_benefits.bifocal_spectacle_lens:
-                            spectacle_lens_benefits.bifocal_spectacle_lens = BenefitItem(
+                            spectacle_lens_benefits.bifocal_spectacle_lens = SimplifiedBenefitItem(
                                 description=description,
-                                frequency=frequency,
-                                copay=parsed_value,
-                                available="Yes" if row.get('Available', True) else "No"
+                                copay=parsed_value
                             )
-                        
+
                         if not spectacle_lens_benefits.trifocal_spectacle_lens:
-                            spectacle_lens_benefits.trifocal_spectacle_lens = BenefitItem(
+                            spectacle_lens_benefits.trifocal_spectacle_lens = SimplifiedBenefitItem(
                                 description=description,
-                                frequency=frequency,
-                                copay=parsed_value,
-                                available="Yes" if row.get('Available', True) else "No"
+                                copay=parsed_value
                             )
-                
+
                 template_data['spectacle_lens_benefits'] = spectacle_lens_benefits
             
             # Process SpectacleLensOptions benefits
@@ -245,26 +227,23 @@ class VersantTabularExtractor(BaseExtractor):
                 for row in benefit_categories['SpectacleLensOptions']:
                     description = row.get('Description', '').strip().lower()
                     parsed_value = await self._parse_value(row.get('Copay'))
-                    frequency = f"Every {row.get('FrequencyMonths', '12')} Months" if row.get('FrequencyMonths') else None
-                    
+
                     matched = False
                     # Try to find a match in our mapping
                     for key, field_name in options_mapping.items():
                         if key in description:
-                            # Create a BenefitItem for this option
-                            benefit_item = BenefitItem(
+                            # Create a SimplifiedBenefitItem for this option
+                            benefit_item = SimplifiedBenefitItem(
                                 description=row.get('Description'),
-                                frequency=frequency,
-                                copay=parsed_value,
-                                available="Yes" if row.get('Available', True) else "No"
+                                copay=parsed_value
                             )
-                            
+
                             # Set the field on the options_benefits object
                             setattr(options_benefits, field_name, benefit_item)
                             matched = True
                             logger.info(f"Matched SpectacleLensOptions: '{key}' -> {field_name} with value {parsed_value}")
                             break
-                    
+
                     # Enhanced fallback matching for AR coatings
                     if not matched and 'ar' in description and 'coating' in description:
                         logger.info(f"Attempting fallback AR matching for: '{description}'")
@@ -280,21 +259,19 @@ class VersantTabularExtractor(BaseExtractor):
                         elif 'ultimate' in description:
                             field_name = 'ar_coating_ultimate'
                             matched = True
-                        
+
                         if matched:
-                            benefit_item = BenefitItem(
+                            benefit_item = SimplifiedBenefitItem(
                                 description=row.get('Description'),
-                                frequency=frequency,
-                                copay=parsed_value,
-                                available="Yes" if row.get('Available', True) else "No"
+                                copay=parsed_value
                             )
                             setattr(options_benefits, field_name, benefit_item)
                             logger.info(f"Fallback matched AR coating: '{description}' -> {field_name} with value {parsed_value}")
-                    
+
                     # Log unmatched items for debugging
                     if not matched:
                         logger.warning(f"Unmatched SpectacleLensOptions item: '{description}' with copay '{row.get('Copay')}'")
-                
+
                 template_data['spectacle_lens_options_benefits'] = options_benefits
             
             # Process Frame benefits
@@ -302,19 +279,16 @@ class VersantTabularExtractor(BaseExtractor):
                 frame_benefits = FrameBenefits()
                 for row in benefit_categories['Frame']:
                     description = row.get('Description', '').strip()
-                    parsed_value = await self._parse_value(row.get('Copay'))
-                    frequency = f"Every {row.get('FrequencyMonths', '12')} Months" if row.get('FrequencyMonths') else None
-                    
-                    # Create the benefit item - for some frames like Non-Plan frames, there might be an 
-                    # allowed amount instead of a copay
-                    benefit_item = BenefitItem(
+                    parsed_copay = await self._parse_value(row.get('Copay'))
+                    parsed_allowance = await self._parse_value(row.get('AllowedPerPeriod'))
+
+                    # Create SimplifiedBenefitItem with copay and allowance (for Non Plan frames)
+                    benefit_item = SimplifiedBenefitItem(
                         description=description,
-                        frequency=frequency,
-                        copay=parsed_value,
-                        amount_allowed_per_period=await self._parse_value(row.get('AllowedPerPeriod')),
-                        available="Yes" if row.get('Available', True) else "No"
+                        copay=parsed_copay,
+                        allowance=parsed_allowance if 'non plan' in description.lower() else None
                     )
-                    
+
                     # Check specific frame types
                     if 'premier frame' in description.lower():
                         frame_benefits.premier_frame = benefit_item
@@ -324,9 +298,36 @@ class VersantTabularExtractor(BaseExtractor):
                         frame_benefits.fashion_frame = benefit_item
                     elif 'frame (non plan)' in description.lower():
                         frame_benefits.frame_non_plan = benefit_item
-                
+
                 template_data['frame_benefits'] = frame_benefits
-            
+
+            # Process ContactLens benefits
+            if 'ContactLens' in benefit_categories:
+                contact_lens_benefits = ContactLensBenefits()
+                for row in benefit_categories['ContactLens']:
+                    description = row.get('Description', '').strip()
+                    parsed_copay = await self._parse_value(row.get('Copay'))
+                    parsed_allowance = await self._parse_value(row.get('AllowedPerPeriod'))
+
+                    # Create SimplifiedBenefitItem with copay and allowance (for Non Plan contacts)
+                    benefit_item = SimplifiedBenefitItem(
+                        description=description,
+                        copay=parsed_copay,
+                        allowance=parsed_allowance if 'non plan' in description.lower() else None
+                    )
+
+                    # Check specific contact lens types
+                    if 'contact lens (plan)' in description.lower():
+                        contact_lens_benefits.contact_lens_plan = benefit_item
+                    elif 'medically necessary' in description.lower() and 'non plan' in description.lower():
+                        contact_lens_benefits.medically_necessary_non_plan = benefit_item
+                    elif 'specialty' in description.lower() and 'non plan' in description.lower():
+                        contact_lens_benefits.contact_lens_specialty_non_plan = benefit_item
+                    elif 'contact lens (non plan)' in description.lower() or 'non plan' in description.lower():
+                        contact_lens_benefits.contact_lens_non_plan = benefit_item
+
+                template_data['contact_lens_benefits'] = contact_lens_benefits
+
             # Create the final template
             result = self.output_template(**template_data)
             self.extracted_data = result.to_template_json()
