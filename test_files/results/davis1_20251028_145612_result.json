@@ -1,6 +1,6 @@
 {
   "provider": "davis",
-  "extraction_id": "0d94675c-6568-42a1-9dd4-1961b4a641b6",
+  "extraction_id": "e1410cdb-4ad7-42b7-825f-c1d28509cd16",
   "data": {
     "plan_name": "Davis Vision",
     "document_type": "Vision Benefits",
@@ -68,6 +68,7 @@
         "copay": 30,
         "allowance": null
       },
+      "polycarbonate_multifocal": null,
       "polycarbonate_provided": {
         "description": "Polycarbonate Provided",
         "copay": 0,
@@ -80,8 +81,12 @@
         "copay": 55,
         "allowance": null
       },
+      "high_index_167_multifocal": null,
       "high_index_174_single_vision": null,
       "high_index_174_multifocal": null,
+      "glass_single_vision": null,
+      "glass_bifocal": null,
+      "glass_trifocal": null,
       "tint": {
         "description": "Tint Solid",
         "copay": 0,
@@ -94,6 +99,8 @@
       "multivision_tint_photogrey": null,
       "single_vision_tint_plastic_photosensitive": null,
       "multivision_tint_plastic_photosensitive": null,
+      "transitions_single_vision": null,
+      "transitions_multifocal": null,
       "blue_light_filtering_ebs": null,
       "polarized": {
         "description": "Polarized",
@@ -112,6 +119,7 @@
         "allowance": null
       },
       "scratch_resistant_coating_premium": null,
+      "coating_non_edp": null,
       "single_vision_scratch_resistant_coating_protection": null,
       "multivision_scratch_resistant_coating_protection": null,
       "mirror_solid_single_double_gradient": null,
@@ -126,7 +134,8 @@
         "description": "Oversized Lenses",
         "copay": 0,
         "allowance": null
-      }
+      },
+      "specialty_lenses": null
     },
     "frame_benefits": {
       "premier_frame": {
@@ -177,5 +186,5 @@
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.1584148406982422
+  "processing_time": 0.9259593486785889
 }

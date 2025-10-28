@@ -57,6 +57,11 @@ DAVIS_TERM_MAP = {
                 "Single Vision - Tint Photogrey",
                 "Multivision - Tint Photogrey"
             ],
+            "transitions": [
+                "Transitions",
+                "Transitions - Single Vision",
+                "Transitions - Multifocal"
+            ],
         },
         "lens_materials": {
             # "standard_plastic" - Typically assumed $0 or "Included" if not listed with cost
@@ -65,6 +70,7 @@ DAVIS_TERM_MAP = {
                 "Polycarbonate Lenses***", 
                 "Polycarbonate", 
                 "Polycarbonate - Single Vision",
+                "Polycarbonate - Multifocal",
                 "Polycarbonate Provided",
                 "HD Polycarbonate - Multifocal",
                 "HD Polycarbonate - Single Vision"
@@ -74,7 +80,8 @@ DAVIS_TERM_MAP = {
                 "High Index Lenses 1.67", 
                 "High-Index 1.67", 
                 "HighIndex 1.67", 
-                "HighIndex 1.67 - Single Vision"
+                "HighIndex 1.67 - Single Vision",
+                "HighIndex 1.67 - Multifocal"
             ],
             "high_index_1_74": [
                 "High Index Lenses 1.74", 
@@ -82,6 +89,12 @@ DAVIS_TERM_MAP = {
                 "HighIndex 1.74", 
                 "HighIndex 1.74 - Multifocal",
                 "HighIndex 1.74 - Single Vision"
+            ],
+            "glass": [
+                "Glass Lenses",
+                "Glass - Single Vision",
+                "Glass - Bifocal", 
+                "Glass - Trifocal"
             ],
         },
         "other_add_on_options": {
@@ -102,14 +115,16 @@ DAVIS_TERM_MAP = {
                 "Scratch Protection Plan Multifocal",
                 "Multivision - Scratch Resistant Coating Protection"
             ],
+            "coating_non_edp": ["Coating (Non EDP)"],
             "uv_coat": ["Ultraviolet Coating", "UV Coat"],
             "edge_polish": ["Edge Polish"],
             "high_luster_edge_polish": ["High Luster Edge Polish"],
             "roll_and_polish": ["Roll & Polish"],
+            "roll_polish": ["Roll Polish"],
             "roll_edge": ["Roll Edge"],
             "rimless_drill": ["Rimless Drill"],
             "slab_off": ["Slab Off"],
-            "specialty_lenses": ["Specialty Lens"], # Followed by examples in parens in PDF
+            "specialty_lenses": ["Specialty Lens", "Specialty Lenses"], # Followed by examples in parens in PDF
             "oversized_lenses": ["Oversized Lenses"],
             "blended_segment": ["Blended Segment"],
         }

@@ -212,6 +212,8 @@ class VersantTabularExtractor(BaseExtractor):
                     # Polycarbonate options
                     'polycarbonate - single vision': 'polycarbonate_single_vision',
                     'polycarbonate single vision': 'polycarbonate_single_vision',
+                    'polycarbonate - multifocal': 'polycarbonate_multifocal',
+                    'polycarbonate multifocal': 'polycarbonate_multifocal',
                     'polycarbonate provided': 'polycarbonate_provided',
                     'hd polycarbonate - single vision': 'hd_polycarbonate_single_vision',
                     'hd polycarbonate - multifocal': 'hd_polycarbonate_multifocal',
@@ -219,11 +221,21 @@ class VersantTabularExtractor(BaseExtractor):
                     
                     # High index lenses
                     'highindex 1.67 - single vision': 'high_index_167_single_vision',
+                    'highindex 1.67 - multifocal': 'high_index_167_multifocal',
                     'highindex 1.74 - single vision': 'high_index_174_single_vision',
                     'highindex 1.74 - multifocal': 'high_index_174_multifocal',
                     'high index 1.67 - single vision': 'high_index_167_single_vision',
+                    'high index 1.67 - multifocal': 'high_index_167_multifocal',
                     'high index 1.74 - single vision': 'high_index_174_single_vision',
                     'high index 1.74 - multifocal': 'high_index_174_multifocal',
+                    
+                    # Glass lenses
+                    'glass - single vision': 'glass_single_vision',
+                    'glass single vision': 'glass_single_vision',
+                    'glass - bifocal': 'glass_bifocal',
+                    'glass bifocal': 'glass_bifocal',
+                    'glass - trifocal': 'glass_trifocal',
+                    'glass trifocal': 'glass_trifocal',
                     
                     # Tints and photochromic options
                     'tint': 'tint',
@@ -235,16 +247,23 @@ class VersantTabularExtractor(BaseExtractor):
                     'single vision - tint plastic - photosensitive': 'single_vision_tint_plastic_photosensitive',
                     'multivision - tint plastic - photosensitive': 'multivision_tint_plastic_photosensitive',
                     
+                    # Transitions lenses (photochromic brand name)
+                    'transitions - single vision': 'transitions_single_vision',
+                    'transitions single vision': 'transitions_single_vision',
+                    'transitions - multifocal': 'transitions_multifocal',
+                    'transitions multifocal': 'transitions_multifocal',
+                    
                     # Other lens options
                     'blue light filtering - ebs': 'blue_light_filtering_ebs',
                     'blue light filtering': 'blue_light_filtering_ebs',
                     'polarized': 'polarized',
                     'intermediate vision': 'intermediate_vision',
                     'ultraviolet coating': 'ultraviolet_coating',
-                    'uv coating': 'ultraviolet_coating',  # NEW - Alternative name
-                    'uv coat': 'ultraviolet_coating',  # NEW - Alternative name
+                    'uv coating': 'ultraviolet_coating',
+                    'uv coat': 'ultraviolet_coating',
                     'scratch resistant coating': 'scratch_resistant_coating',
                     'scratch resistant coating premium': 'scratch_resistant_coating_premium',
+                    'coating (non edp)': 'coating_non_edp',
                     'single vision - scratch resistant coating protection': 'single_vision_scratch_resistant_coating_protection',
                     'multivision - scratch resistant coating protection': 'multivision_scratch_resistant_coating_protection',
                     'mirror - solid, single & double gradient': 'mirror_solid_single_double_gradient',
@@ -258,6 +277,7 @@ class VersantTabularExtractor(BaseExtractor):
                     'slab off': 'slab_off',
                     'blended segment': 'blended_segment',
                     'oversized lenses': 'oversized_lenses',
+                    'specialty lenses': 'specialty_lenses',
                 }
                 
                 for row in benefit_categories['SpectacleLensOptions']:

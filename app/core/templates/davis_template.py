@@ -59,14 +59,21 @@ class SpectacleLensOptionsBenefits(BaseModel):
 
     # Polycarbonate options
     polycarbonate_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="Polycarbonate - Single Vision")
+    polycarbonate_multifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="Polycarbonate - Multifocal")
     polycarbonate_provided: Optional[SimplifiedBenefitItem] = Field(None, alias="Polycarbonate Provided")
     hd_polycarbonate_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="HD Polycarbonate - Single Vision")
     hd_polycarbonate_multifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="HD Polycarbonate - Multifocal")
 
     # High index lenses
     high_index_167_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="HighIndex 1.67 - Single Vision")
+    high_index_167_multifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="HighIndex 1.67 - Multifocal")
     high_index_174_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="HighIndex 1.74 - Single Vision")
     high_index_174_multifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="HighIndex 1.74 - Multifocal")
+
+    # Glass lenses
+    glass_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="Glass - Single Vision")
+    glass_bifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="Glass - Bifocal")
+    glass_trifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="Glass - Trifocal")
 
     # Tints and photochromic options
     tint: Optional[SimplifiedBenefitItem] = Field(None, alias="Tint")
@@ -77,6 +84,10 @@ class SpectacleLensOptionsBenefits(BaseModel):
     multivision_tint_photogrey: Optional[SimplifiedBenefitItem] = Field(None, alias="Multivision - Tint Photogrey")
     single_vision_tint_plastic_photosensitive: Optional[SimplifiedBenefitItem] = Field(None, alias="Single Vision - Tint Plastic - Photosensitive")
     multivision_tint_plastic_photosensitive: Optional[SimplifiedBenefitItem] = Field(None, alias="Multivision - Tint Plastic - Photosensitive")
+    
+    # Transitions lenses (Photochromic brand name)
+    transitions_single_vision: Optional[SimplifiedBenefitItem] = Field(None, alias="Transitions - Single Vision")
+    transitions_multifocal: Optional[SimplifiedBenefitItem] = Field(None, alias="Transitions - Multifocal")
 
     # Other lens options
     blue_light_filtering_ebs: Optional[SimplifiedBenefitItem] = Field(None, alias="Blue Light Filtering - EBS")
@@ -85,6 +96,7 @@ class SpectacleLensOptionsBenefits(BaseModel):
     ultraviolet_coating: Optional[SimplifiedBenefitItem] = Field(None, alias="Ultraviolet Coating")
     scratch_resistant_coating: Optional[SimplifiedBenefitItem] = Field(None, alias="Scratch Resistant Coating")
     scratch_resistant_coating_premium: Optional[SimplifiedBenefitItem] = Field(None, alias="Scratch Resistant Coating Premium")
+    coating_non_edp: Optional[SimplifiedBenefitItem] = Field(None, alias="Coating (Non EDP)")
     single_vision_scratch_resistant_coating_protection: Optional[SimplifiedBenefitItem] = Field(None, alias="Single Vision - Scratch Resistant Coating Protection")
     multivision_scratch_resistant_coating_protection: Optional[SimplifiedBenefitItem] = Field(None, alias="Multivision - Scratch Resistant Coating Protection")
     mirror_solid_single_double_gradient: Optional[SimplifiedBenefitItem] = Field(None, alias="Mirror - Solid, Single & Double Gradient")
@@ -98,6 +110,7 @@ class SpectacleLensOptionsBenefits(BaseModel):
     slab_off: Optional[SimplifiedBenefitItem] = Field(None, alias="Slab Off")
     blended_segment: Optional[SimplifiedBenefitItem] = Field(None, alias="Blended Segment")
     oversized_lenses: Optional[SimplifiedBenefitItem] = Field(None, alias="Oversized Lenses")
+    specialty_lenses: Optional[SimplifiedBenefitItem] = Field(None, alias="Specialty Lenses")
 
 class FrameBenefits(BaseModel):
     """Models frame benefits"""
