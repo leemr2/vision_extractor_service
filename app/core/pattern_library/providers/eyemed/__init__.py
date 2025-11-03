@@ -1,6 +1,10 @@
 """
 EyeMed-specific extraction patterns
 """
+import logging
+
+logger = logging.getLogger(__name__)
+
 # Import eligibility patterns
 from app.core.pattern_library.providers.eyemed.eligibility import (
     EXAM_ELIGIBILITY_PATTERNS,
@@ -25,14 +29,14 @@ try:
         EYEMED_PROGRESSIVE_PATTERNS
     )
     EYEMED_PATTERNS["progressive"] = EYEMED_PROGRESSIVE_PATTERNS
-    print("Successfully imported progressive patterns")
+    logger.debug("Successfully imported progressive patterns")
 except ImportError as e:
     # Skip progressive patterns if they can't be imported
-    print(f"Error importing progressive patterns: {e}")
+    logger.warning(f"Error importing progressive patterns: {e}")
     pass
 except Exception as e:
     # Log more detailed errors
-    print(f"Error loading progressive patterns: {e}")
+    logger.error(f"Error loading progressive patterns: {e}")
     pass
 
 # Import lens options patterns
@@ -51,14 +55,14 @@ try:
         *LENS_OPTION_PATTERNS.values(),
         OTHER_OPTIONS_PATTERNS
     ]
-    print("Successfully imported lens option patterns")
+    logger.debug("Successfully imported lens option patterns")
 except ImportError as e:
     # Skip lens option patterns if they can't be imported
-    print(f"Error importing lens option patterns: {e}")
+    logger.warning(f"Error importing lens option patterns: {e}")
     pass
 except Exception as e:
     # Log more detailed errors
-    print(f"Error loading lens option patterns: {e}")
+    logger.error(f"Error loading lens option patterns: {e}")
     pass
 
 # Import exam patterns
@@ -73,12 +77,12 @@ try:
         RETINAL_IMAGING_PATTERNS,
         FREE_EXAM_PATTERNS
     ]
-    print("Successfully imported exam patterns")
+    logger.debug("Successfully imported exam patterns")
 except ImportError as e:
     # Skip exam patterns if they can't be imported
-    print(f"Error importing exam patterns: {e}")
+    logger.warning(f"Error importing exam patterns: {e}")
     pass
 except Exception as e:
     # Log more detailed errors
-    print(f"Error loading exam patterns: {e}")
+    logger.error(f"Error loading exam patterns: {e}")
     pass 

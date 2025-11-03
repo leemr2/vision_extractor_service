@@ -13,7 +13,8 @@ logging.basicConfig(level=logging.DEBUG,
 # Add the parent directory to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-print("Base imports successful")
+logger = logging.getLogger(__name__)
+logger.debug("Base imports successful")
 
 from app.core.pattern_library.providers.eyemed import EYEMED_PATTERNS
 from app.core.pattern_library.manager import PatternManager
@@ -24,20 +25,20 @@ def main():
     
     # Register all pattern groups
     for category, patterns in EYEMED_PATTERNS.items():
-        print(f"Registering {len(patterns)} patterns from category: {category}")
+        logger.debug(f"Registering {len(patterns)} patterns from category: {category}")
         for pattern_group in patterns:
             pattern_manager.register_pattern_group(pattern_group)
     
-    print(f"Registered {len(pattern_manager.pattern_groups)} pattern groups in total")
+    logger.info(f"Registered {len(pattern_manager.pattern_groups)} pattern groups in total")
     
     # Print all registered patterns
-    print("\nRegistered pattern groups:")
+    logger.info("\nRegistered pattern groups:")
     for name, group in pattern_manager.pattern_groups.items():
-        print(f"Pattern Group: {name}")
+        logger.info(f"Pattern Group: {name}")
         target_fields = set()
         for pattern in group.patterns:
             target_fields.add(pattern.target_field)
-        print(f"  Target fields: {sorted(list(target_fields))}")
+        logger.info(f"  Target fields: {sorted(list(target_fields))}")
     
     # Test lookup by field path
     test_fields = [
@@ -50,7 +51,7 @@ def main():
         "progressive_lenses.premium_tier_5",
     ]
     
-    print("\nTesting field path lookups:")
+    logger.info("\nTesting field path lookups:")
     for field_path in test_fields:
         # Find pattern groups that target this field path
         matching_groups = []
@@ -61,9 +62,12 @@ def main():
                     break
         
         if matching_groups:
-            print(f"Field path: {field_path} - Found in groups: {matching_groups}")
+            logger.info(f"Field path: {field_path} - Found in groups: {matching_groups}")
         else:
-            print(f"Field path: {field_path} - NOT FOUND")
+            logger.warning(f"Field path: {field_path} - NOT FOUND")
 
 if __name__ == "__main__":
-    main() 
+    main()
+
+
+

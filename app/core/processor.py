@@ -51,10 +51,18 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
     try:
         with os.fdopen(temp_fd, "wb") as f:
             f.write(file_content)
-    except:
+    except (OSError, IOError) as e:
         # If writing fails, close the file descriptor to avoid leaks
-        os.close(temp_fd)
-        raise
+        logger.error(f"Failed to write temp file: {e}")
+        try:
+            os.close(temp_fd)
+        except OSError:
+            pass  # Already closed or invalid
+        from fastapi import HTTPException, status
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to process document"
+        )
     
     # Extract text from document
     text = await extract_text_from_pdf(pdf_file)
@@ -150,17 +158,22 @@ async def process_vsp_documents(
             f1.write(file1_content)
         with os.fdopen(temp_fd2, "wb") as f2:
             f2.write(file2_content)
-    except:
+    except (OSError, IOError) as e:
         # If writing fails, close the file descriptors to avoid leaks
+        logger.error(f"Failed to write temp files: {e}")
         try:
             os.close(temp_fd1)
-        except:
+        except OSError:
             pass
         try:
             os.close(temp_fd2)
-        except:
+        except OSError:
             pass
-        raise
+        from fastapi import HTTPException, status
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to process documents"
+        )
     
     try:
         # Create VSP extractor instance

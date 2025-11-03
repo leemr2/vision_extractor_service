@@ -1,6 +1,7 @@
 """
 API endpoints for vision insurance document extraction
 """
+import logging
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status, BackgroundTasks
 from typing import Optional, Dict, Any
 
@@ -8,6 +9,7 @@ from app.core.processor import process_document
 from app.core.utils.validator import validate_pdf
 from app.core.models.standard_models import ExtractionRequest, ExtractionResponse, ErrorResponse, ProviderType
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -77,7 +79,24 @@ async def extract_document(
             pass
         
         return result
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
+    except ValueError as e:
+        # Handle validation errors
+        logger.error(f"Validation error: {e}")
+        error_response = ErrorResponse(
+            error="validation_error",
+            detail=str(e),
+            code="ERR_VALIDATION"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=dict(error_response)
+        )
     except Exception as e:
+        # Handle unexpected errors
+        logger.error(f"Processing error: {e}", exc_info=True)
         error_response = ErrorResponse(
             error="processing_error",
             detail=str(e),

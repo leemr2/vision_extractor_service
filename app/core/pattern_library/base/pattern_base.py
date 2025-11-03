@@ -300,11 +300,4 @@ class PatternGroup:
             "value": result["value"],
             "confidence": result["confidence"],
             "pattern_name": pattern.name
-        }
-
-# Test just the imports
-try:
-    from app.core.pattern_library.base.pattern_base import PatternGroup, ExtractionPattern
-    print("Base imports successful")
-except Exception as e:
-    print(f"Error importing base: {e}") 
+        } 

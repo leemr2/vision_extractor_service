@@ -206,9 +206,6 @@ class VSPExtractor(BaseExtractor):
         """
         logger.info(f"Processing Patient Record data from: {document_path}")
         extracted_record_data = {}
-        # TODO: Implement extraction logic using regex/parsing on document_path content
-        # Extract: patient_info (redacted), eligibility_info, plan_details (copays, allowances)
-        # Identify "Covered" / $0 items
 
         # Example placeholder structure
         extracted_record_data = {
@@ -384,9 +381,6 @@ class VSPExtractor(BaseExtractor):
 
             if not found_pricing:
                  logger.warning(f"Could not extract any lens pricing from {document_path}")
-
-            # TODO: Optional: Clean empty entries (remove options/subcats/cats with no pricing)
-            # processed_categories = self._clean_empty_lens_entries(processed_categories)
 
             extracted_lens_data["lens_categories"] = processed_categories
 
