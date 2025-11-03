@@ -2,19 +2,27 @@
 API endpoints for vision insurance document extraction
 """
 import logging
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, status, BackgroundTasks, Request
 from typing import Optional, Dict, Any
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from app.core.processor import process_document
 from app.core.utils.validator import validate_pdf
 from app.core.models.standard_models import ExtractionRequest, ExtractionResponse, ErrorResponse, ProviderType
+from app.config.settings import settings
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
+# Initialize limiter for this router
+limiter = Limiter(key_func=get_remote_address)
+
 
 @router.post("/extract", status_code=status.HTTP_200_OK, response_model=ExtractionResponse)
+@limiter.limit(f"{settings.RATE_LIMIT_PER_MINUTE}/minute")
 async def extract_document(
+    request: Request,
     file: UploadFile = File(...),
     provider_hint: str = Form(...),
     extract_all: bool = Form(False),
@@ -53,6 +61,15 @@ async def extract_document(
     try:
         # Read file contents
         contents = await file.read()
+        
+        # Enforce file size limit
+        max_size = settings.MAX_DOCUMENT_SIZE_MB * 1024 * 1024  # Convert to bytes
+        if len(contents) > max_size:
+            raise HTTPException(
+                status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+                detail=f"File size exceeds maximum allowed size of {settings.MAX_DOCUMENT_SIZE_MB}MB",
+                headers={"X-Error-Code": "file_too_large"}
+            )
         
         # Validate PDF
         validate_pdf(contents)

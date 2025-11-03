@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     # Document limits
     MAX_DOCUMENT_SIZE_MB: int = 10
     
+    # Rate limiting
+    RATE_LIMIT_PER_MINUTE: int = 10
+    RATE_LIMIT_ENABLED: bool = True
+    
     # Logging settings
     LOG_LEVEL: str = "INFO"
     

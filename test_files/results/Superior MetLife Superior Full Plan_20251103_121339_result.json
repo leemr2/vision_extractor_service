@@ -1,6 +1,6 @@
 {
   "provider": "superior",
-  "extraction_id": "3cb1950c-7f35-4771-af7d-077f1177528c",
+  "extraction_id": "35b9531e-4c82-4a32-83d5-65645caa1802",
   "data": {
     "plan_name": "Superior Vision",
     "document_type": "Vision Benefits",
@@ -226,5 +226,5 @@
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.6845211982727051
+  "processing_time": 0.7116618156433105
 }

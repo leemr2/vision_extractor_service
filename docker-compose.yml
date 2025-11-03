@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   api:
@@ -7,11 +7,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      - DEBUG=true
-      - API_KEY=${API_KEY:-test_api_key}
-      - LOG_LEVEL=DEBUG
-      - CORS_ORIGINS=*
+      # Override with environment-specific values
+      - DEBUG=${DEBUG:-true}
+      - API_KEY=${API_KEY}
+      - LOG_LEVEL=${LOG_LEVEL:-DEBUG}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:8000}
+      - MAX_DOCUMENT_SIZE_MB=${MAX_DOCUMENT_SIZE_MB:-10}
+      - RATE_LIMIT_PER_MINUTE=${RATE_LIMIT_PER_MINUTE:-10}
+      - RATE_LIMIT_ENABLED=${RATE_LIMIT_ENABLED:-true}
     volumes:
       - ./app:/app/app
     command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 

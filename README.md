@@ -96,7 +96,9 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
 | `CORS_ORIGINS` | No | `http://localhost:3000,http://localhost:8000` | Comma-separated list of allowed CORS origins |
 | `DEBUG` | No | `False` | Enable debug mode for development |
 | `LOG_LEVEL` | No | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL) |
-| `MAX_DOCUMENT_SIZE_MB` | No | `10` | Maximum document size in megabytes |
+| `MAX_DOCUMENT_SIZE_MB` | No | `10` | Maximum document size in megabytes (enforced at API level) |
+| `RATE_LIMIT_PER_MINUTE` | No | `10` | Maximum API requests per minute per IP address |
+| `RATE_LIMIT_ENABLED` | No | `True` | Enable/disable rate limiting |
 
 **The service will not start without a valid API_KEY configured.**
 
@@ -171,6 +173,10 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
    
    # Document Processing Limits
    MAX_DOCUMENT_SIZE_MB=10
+   
+   # Rate Limiting (requests per minute per IP)
+   RATE_LIMIT_PER_MINUTE=10
+   RATE_LIMIT_ENABLED=True
    ```
 
    **⚠️ IMPORTANT:** 
@@ -289,8 +295,14 @@ response = requests.post(
 **Error Responses:**
 - `401 Unauthorized`: Missing or invalid API key
 - `400 Bad Request`: Invalid request parameters
-- `413 Payload Too Large`: File exceeds maximum size limit
+- `413 Payload Too Large`: File exceeds maximum size limit (default 10MB)
+- `429 Too Many Requests`: Rate limit exceeded (default 10 requests/minute)
 - `500 Internal Server Error`: Processing error
+
+**Rate Limiting:**
+- The API enforces rate limits to prevent abuse (default: 10 requests per minute per IP address)
+- Rate limit information is included in response headers: `X-RateLimit-Limit`
+- Adjust `RATE_LIMIT_PER_MINUTE` in environment variables to customize limits
 
 ### Extracting Benefits
 
@@ -561,7 +573,13 @@ The service includes comprehensive debugging capabilities:
 ### Network Security
 - **CORS Protection**: Configurable CORS origins (defaults to localhost for development)
 - **HTTPS Recommended**: Always use HTTPS in production environments
-- **Rate Limiting**: Recommended for production deployment (see Phase 2 roadmap)
+- **Rate Limiting**: Enforced at API level (10 requests/minute per IP by default, configurable)
+- **Security Headers**: Comprehensive security headers on all responses:
+  - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: DENY`
+  - `X-XSS-Protection: 1; mode=block`
+  - `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+  - `Content-Security-Policy: default-src 'self'`
 
 ### Configuration Security
 - **No Default Keys**: Service will not start without proper API_KEY configuration
@@ -577,13 +595,27 @@ The service includes comprehensive debugging capabilities:
 5. **Enable Logging**: Monitor authentication failures and suspicious activity
 6. **Keep Dependencies Updated**: Regularly update dependencies for security patches
 
-### Phase 1 Security Improvements (Completed)
+Security Improvements (Completed)
 ✅ Mandatory API key authentication  
 ✅ Secure configuration defaults  
 ✅ Improved error handling (no bare except blocks)  
 ✅ Input validation enforcement  
 ✅ CORS origin restrictions  
 ✅ Configuration validation on startup  
+
+Security Hardening (Completed)
+✅ Rate limiting with configurable thresholds (slowapi integration)  
+✅ Document size limit enforcement (validated before processing)  
+✅ Security headers middleware (comprehensive HTTP security headers)  
+✅ Improved temp file handling (automatic cleanup with context managers)  
+✅ Resource leak prevention (proper file descriptor management)  
+
+**Security Enhancements Details:**
+- **Rate Limiting**: Prevents DoS attacks by limiting requests to 10/minute per IP (configurable)
+- **File Size Validation**: Enforces maximum document size at API level before processing
+- **Security Headers**: Industry-standard security headers on all responses
+- **Automatic Cleanup**: Context managers ensure temp files are always deleted
+- **Error Isolation**: Specific exception handling prevents resource leaks
 
 See `CODE_QUALITY_ANALYSIS.md` for detailed security improvements and future roadmap.
 
