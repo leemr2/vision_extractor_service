@@ -86,6 +86,20 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
 - Tesseract OCR engine (for OCR capabilities)
 - Access to the container registry (for production deployment)
 
+### ⚠️ Required Environment Variables
+
+**IMPORTANT:** As of Phase 1 security improvements, the service requires proper environment configuration to start. The following environment variables are **required**:
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `API_KEY` | **YES** | None | API authentication key (minimum 32 characters recommended) |
+| `CORS_ORIGINS` | No | `http://localhost:3000,http://localhost:8000` | Comma-separated list of allowed CORS origins |
+| `DEBUG` | No | `False` | Enable debug mode for development |
+| `LOG_LEVEL` | No | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL) |
+| `MAX_DOCUMENT_SIZE_MB` | No | `10` | Maximum document size in megabytes |
+
+**The service will not start without a valid API_KEY configured.**
+
 ### Local Development Setup
 
 1. Clone the repository:
@@ -124,43 +138,159 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
    brew install tesseract
    ```
 
-5. Set up environment variables:
+5. **Generate a secure API key:**
 
    ```bash
-   cp .env.example .env
-   # Edit .env file with your configuration
+   # Using Python (recommended)
+   python -c "import secrets; print(secrets.token_urlsafe(32))"
+   
+   # Or using OpenSSL
+   openssl rand -base64 32
+   
+   # On Windows PowerShell
+   [Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }))
    ```
 
-6. Run the development server:
+6. **Set up environment variables:**
+
+   Create a `.env` file in the project root:
 
    ```bash
+   # .env
+   # API Authentication (REQUIRED)
+   API_KEY=your_generated_secure_api_key_here
+   
+   # CORS Configuration (comma-separated list of allowed origins)
+   CORS_ORIGINS=http://localhost:3000,http://localhost:8000
+   
+   # Debug Mode (set to True for development)
+   DEBUG=True
+   
+   # Logging Level
+   LOG_LEVEL=INFO
+   
+   # Document Processing Limits
+   MAX_DOCUMENT_SIZE_MB=10
+   ```
+
+   **⚠️ IMPORTANT:** 
+   - Never commit your `.env` file to version control
+   - Use a strong, randomly generated API key (minimum 32 characters)
+   - Never use `test_api_key` or similar weak values in production
+
+7. Run the development server:
+
+   ```bash
+   # On Unix/macOS
    ./scripts/run_dev.sh
-   # Or directly with: uvicorn app.main:app --reload
+   
+   # Or directly with uvicorn
+   uvicorn app.main:app --reload
+   
+   # On Windows (using venv)
+   .\venv\Scripts\python.exe -m app.main
    ```
 
 ### Docker Deployment
 
-1. Build the Docker image:
+1. **Generate a secure API key** (see step 5 in Local Development Setup above)
+
+2. Build the Docker image:
 
    ```bash
    docker build -t vision-extractor-service:latest .
    ```
 
-2. Run the container:
+3. Run the container with environment variables:
 
    ```bash
-   docker run -p 8000:8000 -e API_KEY=your_api_key vision-extractor-service:latest
+   # Using environment variables directly
+   docker run -p 8000:8000 \
+     -e API_KEY=your_generated_secure_api_key_here \
+     -e CORS_ORIGINS=http://localhost:3000,http://localhost:8000 \
+     -e DEBUG=False \
+     vision-extractor-service:latest
    ```
+
+4. Or use Docker Compose with environment file:
+
+   Create a `docker-compose.yml`:
+   ```yaml
+   version: '3.8'
+   
+   services:
+     vision-extractor:
+       build: .
+       ports:
+         - "8000:8000"
+       env_file:
+         - .env
+       environment:
+         - API_KEY=${API_KEY}
+         - CORS_ORIGINS=${CORS_ORIGINS}
+         - DEBUG=${DEBUG}
+         - LOG_LEVEL=${LOG_LEVEL}
+   ```
+
+   Then run:
+   ```bash
+   docker-compose up
+   ```
+
+   **⚠️ Security Note:** 
+   - Never hardcode API keys in Dockerfiles or docker-compose.yml
+   - Use environment variables or secrets management
+   - Ensure `.env` is in your `.gitignore`
 
 ## API Usage
 
 ### Authentication
 
-All API requests require authentication using an API key:
+**All API requests require authentication** using the API key configured in your environment variables.
+
+Include the API key in the `Authorization` header using Bearer token format:
 
 ```
 Authorization: Bearer YOUR_API_KEY
 ```
+
+**Example using cURL:**
+```bash
+curl -X POST http://localhost:8000/api/extract \
+  -H "Authorization: Bearer your_api_key_here" \
+  -F "file=@sample.pdf" \
+  -F "provider_hint=eyemed"
+```
+
+**Example using Python requests:**
+```python
+import requests
+
+headers = {
+    'Authorization': 'Bearer your_api_key_here'
+}
+
+files = {
+    'file': ('sample.pdf', open('sample.pdf', 'rb'), 'application/pdf')
+}
+
+data = {
+    'provider_hint': 'eyemed'
+}
+
+response = requests.post(
+    'http://localhost:8000/api/extract',
+    headers=headers,
+    files=files,
+    data=data
+)
+```
+
+**Error Responses:**
+- `401 Unauthorized`: Missing or invalid API key
+- `400 Bad Request`: Invalid request parameters
+- `413 Payload Too Large`: File exceeds maximum size limit
+- `500 Internal Server Error`: Processing error
 
 ### Extracting Benefits
 
@@ -415,12 +545,47 @@ The service includes comprehensive debugging capabilities:
 
 ## Security Considerations
 
+### Data Protection
 - **In-Memory Processing**: No input files are saved to disk; all processing happens in memory
-- **PHI Redaction**: Automatically detects and redacts patient identifiable information
-- **API Authentication**: API authentication is required for all endpoints
+- **PHI Redaction**: Automatically detects and redacts patient identifiable information (SSN, DOB, etc.)
 - **No Persistent Storage**: No database or persistent storage is used for documents
 - **Secure Testing**: Test interface results are stored locally and not transmitted
 - **Input Validation**: Comprehensive input validation for all file uploads
+
+### Authentication & Authorization
+- **Required API Key**: API authentication is mandatory for all endpoints (enforced since Phase 1)
+- **Bearer Token Authentication**: Standard OAuth 2.0 Bearer token format
+- **Secure Key Generation**: Cryptographically secure random key generation required
+- **Environment-Based Configuration**: API keys must be configured via environment variables
+
+### Network Security
+- **CORS Protection**: Configurable CORS origins (defaults to localhost for development)
+- **HTTPS Recommended**: Always use HTTPS in production environments
+- **Rate Limiting**: Recommended for production deployment (see Phase 2 roadmap)
+
+### Configuration Security
+- **No Default Keys**: Service will not start without proper API_KEY configuration
+- **Validation on Startup**: Configuration is validated when the service starts
+- **Environment Variables**: Sensitive configuration is never hardcoded
+- **Production Warnings**: Automatic warnings for insecure configurations in production mode
+
+### Best Practices
+1. **Generate Strong API Keys**: Use cryptographically secure random generators (minimum 32 characters)
+2. **Rotate Keys Regularly**: Implement a key rotation schedule for production
+3. **Use Environment Files**: Never commit `.env` files or hardcode secrets
+4. **Restrict CORS Origins**: Set specific allowed origins in production (avoid wildcards)
+5. **Enable Logging**: Monitor authentication failures and suspicious activity
+6. **Keep Dependencies Updated**: Regularly update dependencies for security patches
+
+### Phase 1 Security Improvements (Completed)
+✅ Mandatory API key authentication  
+✅ Secure configuration defaults  
+✅ Improved error handling (no bare except blocks)  
+✅ Input validation enforcement  
+✅ CORS origin restrictions  
+✅ Configuration validation on startup  
+
+See `CODE_QUALITY_ANALYSIS.md` for detailed security improvements and future roadmap.
 
 ## License
 
