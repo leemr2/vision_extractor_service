@@ -57,14 +57,37 @@ COMPLEX_PRICING_PATTERNS = {
 }
 
 # Define table row patterns for progressive lens tiers
+# Each tier has two patterns: same-line and next-line pricing formats
+# Capture stops at next table row or section boundary
 TABLE_ROW_PATTERNS = {
-    "standard": re.compile(r"Progressive(?:\s+-|\s+)Standard\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    "premium": re.compile(r"Progressive(?:\s+-|\s+)Premium(?!\s+Tier)\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    1: re.compile(r"Progressive(?:\s+-|\s+)Premium\s+Tier\s+1\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    2: re.compile(r"Progressive(?:\s+-|\s+)Premium\s+Tier\s+2\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    3: re.compile(r"Progressive(?:\s+-|\s+)Premium\s+Tier\s+3\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    4: re.compile(r"Progressive(?:\s+-|\s+)Premium\s+Tier\s+4\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
-    5: re.compile(r"Progressive(?:\s+-|\s+)Premium\s+Tier\s+5\s+([^\n]+)(?:\n|$)", re.IGNORECASE),
+    "standard": [
+        re.compile(r"Progressive\s+[-\s]+Standard\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),  # Same line
+        re.compile(r"Progressive\s+[-\s]+Standard\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),  # Next line
+    ],
+    "premium": [
+        re.compile(r"Progressive\s+[-\s]+Premium(?!\s+Tier)\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),  # Same line
+        re.compile(r"Progressive\s+[-\s]+Premium(?!\s+Tier)\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),  # Next line
+    ],
+    1: [
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+1\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+1\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+    ],
+    2: [
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+2\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+2\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+    ],
+    3: [
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+3\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+3\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+    ],
+    4: [
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+4\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+4\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+    ],
+    5: [
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+5\s+(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+        re.compile(r"Progressive\s+[-\s]+Premium\s+Tier\s+5\s*\n\s*(\$[^\n]+?)(?=\n|$)", re.IGNORECASE),
+    ],
 }
 
 # Patterns for detecting progressive lens benefit tables
@@ -145,9 +168,10 @@ class ProgressivePatternFactory:
                 results["tier_count"] = len(tier_numbers)
         
         # Check for standard/premium split without tiers
+        # Fixed regex to properly match "Progressive - Standard" and "Progressive - Premium"
         standard_premium_split = (
-            re.search(r"Progressive\s+(?:-|\s+)?Standard", document_text, re.IGNORECASE) is not None and
-            re.search(r"Progressive\s+(?:-|\s+)?Premium(?!\s+Tier)", document_text, re.IGNORECASE) is not None and
+            re.search(r"Progressive\s+[-\s]+Standard", document_text, re.IGNORECASE) is not None and
+            re.search(r"Progressive\s+[-\s]+Premium(?!\s+Tier)", document_text, re.IGNORECASE) is not None and
             not results.get("has_progressive_tiers", False)
         )
         results["has_standard_premium_split"] = standard_premium_split
@@ -359,38 +383,47 @@ def extract_tier_from_table(document_text: str, tier_key: Any) -> Optional[str]:
     Returns:
         Extracted pricing string or None if not found
     """
-    # Get pattern for this tier
+    # Get patterns for this tier
     if tier_key not in TABLE_ROW_PATTERNS:
         logger.debug(f"No table row pattern available for tier {tier_key}")
         return None
         
-    pattern = TABLE_ROW_PATTERNS[tier_key]
+    patterns = TABLE_ROW_PATTERNS[tier_key]
     
-    # First try to find a table row match
-    match = pattern.search(document_text)
-    if match:
-        value = match.group(1).strip()
-        tier_name = f"Tier {tier_key}" if isinstance(tier_key, int) else tier_key.capitalize()
-        logger.debug(f"Found {tier_name} progressive pricing from table row: {value}")
-        return value
+    # Try each pattern (same-line first, then next-line)
+    for pattern in patterns:
+        match = pattern.search(document_text)
+        if match:
+            value = match.group(1).strip()
+            tier_name = f"Tier {tier_key}" if isinstance(tier_key, int) else tier_key.capitalize()
+            logger.debug(f"Found {tier_name} progressive pricing from table row: {value}")
+            return value
     
     # If standard tier and no direct match, try alternative patterns
     if tier_key == "standard":
-        alt_pattern = re.compile(r"Standard\s+Progressive\s+([^\n]+)(?:\n|$)", re.IGNORECASE)
-        alt_match = alt_pattern.search(document_text)
-        if alt_match:
-            value = alt_match.group(1).strip()
-            logger.debug(f"Found Standard progressive from alternative table row: {value}")
-            return value
+        alt_patterns = [
+            re.compile(r"Standard\s+Progressive\s+([^\n]+)", re.IGNORECASE),
+            re.compile(r"Standard\s+Progressive\s*\n\s*([^\n]+)", re.IGNORECASE),
+        ]
+        for alt_pattern in alt_patterns:
+            alt_match = alt_pattern.search(document_text)
+            if alt_match:
+                value = alt_match.group(1).strip()
+                logger.debug(f"Found Standard progressive from alternative table row: {value}")
+                return value
     
     # If premium tier (without number) and no direct match, try alternative patterns
     if tier_key == "premium":
-        alt_pattern = re.compile(r"Premium\s+Progressive(?!\s+Tier)\s+([^\n]+)(?:\n|$)", re.IGNORECASE)
-        alt_match = alt_pattern.search(document_text)
-        if alt_match:
-            value = alt_match.group(1).strip()
-            logger.debug(f"Found Premium progressive from alternative table row: {value}")
-            return value
+        alt_patterns = [
+            re.compile(r"Premium\s+Progressive(?!\s+Tier)\s+([^\n]+)", re.IGNORECASE),
+            re.compile(r"Premium\s+Progressive(?!\s+Tier)\s*\n\s*([^\n]+)", re.IGNORECASE),
+        ]
+        for alt_pattern in alt_patterns:
+            alt_match = alt_pattern.search(document_text)
+            if alt_match:
+                value = alt_match.group(1).strip()
+                logger.debug(f"Found Premium progressive from alternative table row: {value}")
+                return value
     
     logger.debug(f"No table row found for progressive {tier_key}")
     return None

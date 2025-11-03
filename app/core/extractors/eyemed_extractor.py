@@ -88,8 +88,8 @@ class EyeMedExtractor(BaseExtractor):
         lens_benefits = await self.extract_lens_benefits(processed_text)
         vision_benefits["lenses"] = lens_benefits
         
-        # Extract progressive lens benefits
-        progressive_benefits = await self.extract_progressive_lens_benefits(processed_text)
+        # Extract progressive lens benefits (use original text to preserve line structure for table extraction)
+        progressive_benefits = await self.extract_progressive_lens_benefits(document_text)
         vision_benefits["progressive_lenses"] = progressive_benefits
         
         # Extract lens options
@@ -118,11 +118,8 @@ class EyeMedExtractor(BaseExtractor):
         # Remove any potentially sensitive information
         self.sanitize_output()
         
-        # Perform additional validation on progressive lens tier data
-        if "vision_benefits" in self.extracted_data and "progressive_lenses" in self.extracted_data["vision_benefits"]:
-            progressive_lenses = self.extracted_data["vision_benefits"]["progressive_lenses"]
-            validated_lenses = self._validate_progressive_tiers(progressive_lenses)
-            self.extracted_data["vision_benefits"]["progressive_lenses"] = validated_lenses
+        # Note: Progressive lens validation already performed in extract_progressive_lens_benefits()
+        # No need for additional validation here
         
         return self.get_result()
     
@@ -461,9 +458,16 @@ class EyeMedExtractor(BaseExtractor):
         has_tier_rows = bool(re.search(r"Progressive\s+-\s+Premium\s+Tier\s+\d|Premium\s+Tier\s+\d", document_text, re.IGNORECASE))
         
         # Double check pattern type with more nuanced detection
-        if pattern_type == 1 or ((single_progressive_generic or single_progressive_premium or single_progressive_standard) and not has_tier_rows):
-            is_pattern_1 = True
-            logger.debug("Confirmed Pattern 1 (single price pattern) with enhanced detection")
+        # Only override to Pattern 1 if pattern_type is already 1 AND we have confirming indicators
+        # Don't override Pattern 2/3/4 detections - those are explicit structure detections
+        if pattern_type == 1:
+            # Confirm Pattern 1 only if we have generic progressive without both standard AND premium
+            if not (single_progressive_standard and single_progressive_premium):
+                is_pattern_1 = True
+                logger.debug("Confirmed Pattern 1 (single price pattern) with enhanced detection")
+            else:
+                # If we have both standard and premium, this might be Pattern 2
+                logger.debug("Pattern type 1 detected but found both standard and premium - may need re-evaluation")
         
         # Use table-based extraction for all pattern types
         # Extract based on pattern type
@@ -548,25 +552,21 @@ class EyeMedExtractor(BaseExtractor):
             if premium_price:
                 logger.debug(f"Found premium pricing from table: {premium_price}")
                 
-                # Apply the premium price to all tier fields
-                for tier in range(1, 5):  # Tiers 1-4
-                    tier_key = f"premium_tier_{tier}"
-                    progressive_benefits[tier_key] = premium_price
-                    self.set_confidence(f"{tier_key}_cost", 0.9)  # High confidence for table-based extraction
-                    logger.debug(f"Applied premium price to tier {tier}: {premium_price}")
+                # For Pattern 2, use generic premium field (no tiers)
+                progressive_benefits["premium"] = premium_price
+                self.set_confidence("premium_cost", 0.9)  # High confidence for table-based extraction
+                logger.debug(f"Set Pattern 2 generic premium: {premium_price}")
             else:
                 # Fall back to pattern manager if no table row found
                 premium_result = self.pattern_manager.extract(document_text, "progressive_lenses.premium")
                 if premium_result:
                     premium_price = premium_result["value"]
-                    logger.debug(f"Found generic premium pricing: {premium_price}, applying to all tiers")
+                    logger.debug(f"Found generic premium pricing from pattern: {premium_price}")
                     
-                    # Apply the premium price to all tier fields
-                    for tier in range(1, 5):  # Tiers 1-4
-                        tier_key = f"premium_tier_{tier}"
-                        progressive_benefits[tier_key] = premium_price
-                        self.set_confidence(f"{tier_key}_cost", premium_result["confidence"] - 0.05)
-                        logger.debug(f"Applied generic premium to tier {tier}: {premium_price}")
+                    # For Pattern 2, use generic premium field (no tiers)
+                    progressive_benefits["premium"] = premium_price
+                    self.set_confidence("premium_cost", premium_result["confidence"])
+                    logger.debug(f"Set Pattern 2 generic premium: {premium_price}")
         
         elif pattern_type == 3 or pattern_type == 4:  # Standard + Premium tiers 1-4/5 pattern
             # Extract standard progressive from table

@@ -31,6 +31,7 @@ class Lenses(BaseModel):
 class ProgressiveLenses(BaseModel):
     """Progressive lens benefits"""
     standard: Optional[str] = Field(None, description="Standard progressive lenses cost")
+    premium: Optional[str] = Field(None, description="Generic premium progressive lenses cost (Pattern 2: no tiers)")
     premium_tier_1: Optional[str] = Field(None, description="Premium Tier 1 progressive lenses cost")
     premium_tier_2: Optional[str] = Field(None, description="Premium Tier 2 progressive lenses cost")
     premium_tier_3: Optional[str] = Field(None, description="Premium Tier 3 progressive lenses cost")
