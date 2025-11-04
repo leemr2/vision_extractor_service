@@ -1,7 +1,8 @@
 {
   "provider": "eyemed",
-  "extraction_id": "4d19a000-9349-4eff-88ae-2b185cd115d3",
+  "extraction_id": "9116b516-1f13-45fd-b487-bff7bf51d507",
   "data": {
+    "provider": "eyemed",
     "eligibility_info": {
       "exam_eligible": false,
       "lenses_eligible": false,
@@ -44,9 +45,10 @@
         "premium": "10% off retail price"
       }
     },
-    "confidence_score": 0.88
+    "confidence_score": 0.88,
+    "raw_data": null
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.3736131191253662
+  "processing_time": 0.3497023582458496
 }

@@ -1,6 +1,6 @@
 {
   "provider": "vsp",
-  "extraction_id": "cb5e47dd-b554-4604-aeb7-6bb3a9a3f0a7",
+  "extraction_id": "2bbd0c0e-a591-42df-ac46-e34e88fa6edc",
   "data": {
     "document_type": "vsp_combined",
     "document_title": "VSP Combined Insurance Benefits",
@@ -736,10 +736,10 @@
     ],
     "custom_id": "90546045",
     "metadata": {
-      "processingDate": "2025-11-03T16:14:52.755597"
+      "processingDate": "2025-11-03T16:26:53.608121"
     }
   },
   "confidence": 0.8888888888888888,
   "warnings": [],
-  "processing_time": 0.07734894752502441
+  "processing_time": 0.04637289047241211
 }

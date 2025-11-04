@@ -1,0 +1,190 @@
+{
+  "provider": "spectera",
+  "extraction_id": "cd89747f-e5fe-4ef0-84d3-f375bcc96bd2",
+  "data": {
+    "provider": "spectera",
+    "patient_info": {
+      "member_name": "[REDACTED]",
+      "subscriber_id": "946753520-01",
+      "product_name": "Name: L008V"
+    },
+    "eligibility_info": {
+      "categories": [
+        {
+          "name": "Exam",
+          "is_eligible": true
+        },
+        {
+          "name": "Frame",
+          "is_eligible": false
+        },
+        {
+          "name": "Lenses",
+          "is_eligible": true
+        }
+      ]
+    },
+    "vision_benefits": {
+      "professional_services": {
+        "exam": {
+          "provider_name": "Exam",
+          "patient_responsibility": "$10.00"
+        },
+        "retinal_screening": {
+          "provider_name": "Retinal Screening Photography for Diabetics",
+          "patient_responsibility": "None"
+        }
+      },
+      "frames": {
+        "provider_name": "Frame",
+        "patient_responsibility": "70.00% of Balance over $130.00 Benefit Allowance"
+      },
+      "lenses": {
+        "standard_lenses": {
+          "provider_name": "Standard Lenses",
+          "patient_responsibility": "$10.00"
+        },
+        "blended_bifocals": {
+          "provider_name": "Blended Bifocals",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "free_form_sv_lenses": {
+          "provider_name": "Free-form SV Lenses",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "sv_aspheric_lenses": {
+          "provider_name": "SV Aspheric Lenses",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "mf_aspheric_lenses": {
+          "provider_name": "MF Aspheric Lenses",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "occupational_double_seg_lenses": {
+          "provider_name": "Occupational Double Seg Lenses",
+          "patient_responsibility": "80% of Billed Charges"
+        }
+      },
+      "progressive_lenses": {
+        "non_formulary": {
+          "provider_name": "Progressive Lenses: Non-Formulary",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "tier_1": {
+          "provider_name": "Progressive Lenses: Tier I",
+          "patient_responsibility": "$65.00"
+        },
+        "tier_2": {
+          "provider_name": "Progressive Lenses: Tier II",
+          "patient_responsibility": "$110.00"
+        },
+        "tier_3": {
+          "provider_name": "Progressive Lenses: Tier III",
+          "patient_responsibility": "$160.00"
+        },
+        "tier_4": {
+          "provider_name": "Progressive Lenses: Tier IV",
+          "patient_responsibility": "$210.00"
+        },
+        "tier_5": {
+          "provider_name": "Progressive Lenses: Tier V",
+          "patient_responsibility": "$260.00"
+        }
+      },
+      "lens_materials": {
+        "high_index_standard": {
+          "provider_name": "High Index less than or equal to 1.66",
+          "patient_responsibility": "$53.00"
+        },
+        "high_index_premium": {
+          "provider_name": "High Index 1.66 - 1.73",
+          "patient_responsibility": "$63.00"
+        },
+        "high_index_ultra": {
+          "provider_name": "High Index, >= 1.74",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "polycarbonate_child": {
+          "provider_name": "Polycarbonate Lenses",
+          "patient_responsibility": "Covered-in-Full for Ages 0-18"
+        },
+        "polycarbonate_adult": {
+          "provider_name": "Polycarbonate Lenses",
+          "patient_responsibility": "Covered-in-Full for Ages 0-18",
+          "age_note": "for Ages 19+"
+        }
+      },
+      "lens_options": {
+        "anti_reflective_coating": {
+          "non_formulary": {
+            "provider_name": "Anti-Reflective Coating: Non-Formulary",
+            "patient_responsibility": "80% of Billed Charges"
+          },
+          "tier_1": {
+            "provider_name": "Anti-Reflective Coating: Tier I",
+            "patient_responsibility": "$30.00"
+          },
+          "tier_2": {
+            "provider_name": "Anti-Reflective Coating: Tier II",
+            "patient_responsibility": "$50.00"
+          },
+          "tier_3": {
+            "provider_name": "Anti-Reflective Coating: Tier III",
+            "patient_responsibility": "$75.00"
+          },
+          "tier_4": {
+            "provider_name": "Anti-Reflective Coating: Tier IV",
+            "patient_responsibility": "$95.00"
+          }
+        },
+        "scratch_coating": {
+          "provider_name": "Scratch Coating",
+          "patient_responsibility": "Covered-in-Full"
+        },
+        "one_year_scratch_warranty": {
+          "provider_name": "One Year Scratch Warranty",
+          "patient_responsibility": "$10.00"
+        },
+        "edge_coating": {
+          "provider_name": "Edge Coating",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "photochromic": {
+          "provider_name": "Photochromic",
+          "patient_responsibility": "$67.00"
+        },
+        "polarized": {
+          "provider_name": "Polarized",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "tint": {
+          "provider_name": "Tint",
+          "patient_responsibility": "$14.00"
+        },
+        "uv_coating": {
+          "provider_name": "UV Coating",
+          "patient_responsibility": "$16.00"
+        },
+        "polished_edges": {
+          "provider_name": "Polished Edges",
+          "patient_responsibility": "/ Roll & Polish"
+        },
+        "oversize_lenses": {
+          "provider_name": "Oversize Lenses",
+          "patient_responsibility": "80% of Billed Charges"
+        },
+        "chemistrie_clip": {
+          "provider_name": "Chemistrie Clip",
+          "patient_responsibility": "100% of Billed Charges"
+        },
+        "miscellaneous_lens_options": {
+          "provider_name": "Miscellaneous Lens Options",
+          "patient_responsibility": "80% of Billed Charges"
+        }
+      }
+    }
+  },
+  "confidence": 0.8,
+  "warnings": [],
+  "processing_time": 0.046349287033081055
+}

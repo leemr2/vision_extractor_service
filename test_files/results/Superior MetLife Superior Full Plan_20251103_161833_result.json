@@ -1,10 +1,10 @@
 {
   "provider": "superior",
-  "extraction_id": "35b9531e-4c82-4a32-83d5-65645caa1802",
+  "extraction_id": "8f26ed92-d124-4b76-ac65-2455a4b332c3",
   "data": {
     "plan_name": "Superior Vision",
     "document_type": "Vision Benefits",
-    "provider": "Davis Vision",
+    "provider": "superior",
     "exam_benefits": {
       "routine_exam": {
         "description": "Routine Exam",
@@ -226,5 +226,5 @@
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.7116618156433105
+  "processing_time": 0.6651532649993896
 }

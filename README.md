@@ -88,7 +88,7 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
 
 ### ⚠️ Required Environment Variables
 
-**IMPORTANT:** As of Phase 1 security improvements, the service requires proper environment configuration to start. The following environment variables are **required**:
+**IMPORTANT:** With security improvements, the service requires proper environment configuration to start. The following environment variables are **required**:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
@@ -489,8 +489,6 @@ python test_pattern_base.py
 # Debug pattern library
 python debug_patterns.py
 ```
-
-For detailed EyeMed testing instructions, see [TESTING_EYEMED.md](TESTING_EYEMED.md).
 
 ### Adding a New Insurance Provider
 

@@ -1,10 +1,10 @@
 {
   "provider": "davis",
-  "extraction_id": "e1410cdb-4ad7-42b7-825f-c1d28509cd16",
+  "extraction_id": "6e4d15bb-3634-4a7e-a1f1-1511e2a6e425",
   "data": {
     "plan_name": "Davis Vision",
     "document_type": "Vision Benefits",
-    "provider": "Davis Vision",
+    "provider": "davis",
     "exam_benefits": {
       "routine_exam": {
         "description": "Routine Exam",
@@ -186,5 +186,5 @@
   },
   "confidence": 0.8,
   "warnings": [],
-  "processing_time": 0.9259593486785889
+  "processing_time": 0.9959747791290283
 }
