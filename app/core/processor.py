@@ -10,7 +10,6 @@ import tempfile
 from typing import Dict, Any, Optional, BinaryIO
 from pathlib import Path
 
-from app.core.preprocessing.document_classifier import detect_provider
 from app.core.preprocessing.text_normalizer import normalize_text
 from app.core.preprocessing.structure_analyzer import analyze_structure
 from app.core.preprocessing.term_annotator import annotate_terms
@@ -33,7 +32,7 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
     Args:
         file_content: Raw document bytes
         filename: Original filename
-        provider_hint: Insurance provider (required)
+        provider_hint: User-defined insurance provider (required)
         
     Returns:
         Dictionary containing structured benefit information
@@ -46,24 +45,37 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
     # Convert bytes to file-like object
     pdf_file = io.BytesIO(file_content)
     
-    # Use context manager for automatic temp file cleanup
+    # Use context manager for temp file cleanup
+    # Note: delete=False on Windows to allow file handle to close before extractor opens it
     with tempfile.NamedTemporaryFile(
         suffix=".pdf",
         prefix=f"{extraction_id}_",
-        delete=True  # Auto-delete on close
+        delete=False  # Manual cleanup required to avoid Windows file locking issues
     ) as temp_file:
+        temp_path = None
         try:
             # Write content to temp file
             temp_file.write(file_content)
             temp_file.flush()  # Ensure data is written to disk
             temp_path = temp_file.name
             
+            # Close file handle explicitly to release lock (required on Windows)
+            # This allows extractor to open the file for reading
+            temp_file.close()
+            
             # Extract text from document
             text = await extract_text_from_pdf(pdf_file)
             
-            # Use user-provided provider (trusted)
-            detected_provider = await detect_provider(text, provider_hint)
-            provider_type = ProviderType(detected_provider.lower())
+            # Convert user-provided provider hint to ProviderType enum
+            try:
+                provider_type = ProviderType(provider_hint.lower())
+                logger.info(f"Processing document with user-provided provider: {provider_type.value}")
+            except ValueError:
+                logger.error(f"Invalid provider hint: {provider_hint}")
+                raise ValueError(
+                    f"Unsupported provider: {provider_hint}. "
+                    f"Supported providers: {[p.value for p in ProviderType if p != ProviderType.UNKNOWN]}"
+                )
             
             # Redact PHI if present
             redacted_text = await redact_phi(text)
@@ -71,7 +83,7 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
             # Get appropriate extractor based on provider
             extractor = await get_extractor(provider_type)
             
-            # Extract structured data
+            # Extract structured data (file handle is now closed, extractor can open it)
             extraction_result = await extractor.extract(redacted_text, temp_path)
             
             # Handle different extractor return formats
@@ -86,6 +98,11 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
                 extraction_result.pop("confidence_scores", None)
                 extraction_result.pop("provider", None)
                 extracted_data = extraction_result
+            
+            # Ensure provider field is present in extracted_data for template validation
+            # (required by some templates like EyeMedTemplate)
+            if "provider" not in extracted_data:
+                extracted_data["provider"] = provider_type.value
             
             # Validate the extracted data against the appropriate template
             try:
@@ -118,8 +135,16 @@ async def process_document(file_content: bytes, filename: str, provider_hint: st
         except Exception as e:
             logger.error(f"Extraction failed: {e}", exc_info=True)
             raise
+        finally:
+            # Manual cleanup since delete=False
+            # This ensures files are deleted even if an exception occurs
+            if temp_path and os.path.exists(temp_path):
+                try:
+                    os.unlink(temp_path)
+                    logger.debug(f"Cleaned up temp file: {temp_path}")
+                except OSError as e:
+                    logger.warning(f"Failed to delete temp file {temp_path}: {e}")
     
-    # File automatically deleted when exiting context
     return response.dict()  # Use dict() for Pydantic v1.x
 
 
@@ -148,16 +173,19 @@ async def process_vsp_documents(
     # Create a unique extraction ID
     extraction_id = str(uuid.uuid4())
     
-    # Use context managers for automatic temp file cleanup
+    # Use context managers for temp file cleanup
+    # Note: delete=False on Windows to allow file handles to close before extractor opens files
     with tempfile.NamedTemporaryFile(
         suffix=".pdf",
         prefix=f"{extraction_id}_file1_",
-        delete=True
+        delete=False  # Manual cleanup required to avoid Windows file locking issues
     ) as temp_file1, tempfile.NamedTemporaryFile(
         suffix=".pdf",
         prefix=f"{extraction_id}_file2_",
-        delete=True
+        delete=False  # Manual cleanup required to avoid Windows file locking issues
     ) as temp_file2:
+        temp_path1 = None
+        temp_path2 = None
         try:
             # Write both files to temp locations
             temp_file1.write(file1_content)
@@ -168,10 +196,15 @@ async def process_vsp_documents(
             temp_file2.flush()
             temp_path2 = temp_file2.name
             
+            # Close file handles explicitly to release locks (required on Windows)
+            # This allows extractor to open the files for reading
+            temp_file1.close()
+            temp_file2.close()
+            
             # Create VSP extractor instance
             vsp_extractor = VSPExtractor()
             
-            # Process both documents through the VSP extractor
+            # Process both documents through the VSP extractor (file handles are now closed)
             extraction_result = await vsp_extractor.extract_from_multiple_files(
                 [temp_path1, temp_path2],
                 [file1_name, file2_name]
@@ -220,8 +253,17 @@ async def process_vsp_documents(
         except Exception as e:
             logger.error(f"Extraction failed: {e}", exc_info=True)
             raise
+        finally:
+            # Manual cleanup since delete=False
+            # This ensures files are deleted even if an exception occurs
+            for temp_path in [temp_path1, temp_path2]:
+                if temp_path and os.path.exists(temp_path):
+                    try:
+                        os.unlink(temp_path)
+                        logger.debug(f"Cleaned up temp file: {temp_path}")
+                    except OSError as e:
+                        logger.warning(f"Failed to delete temp file {temp_path}: {e}")
     
-    # Files automatically deleted when exiting context
     return response.dict()  # Use dict() for Pydantic v1.x
 
 
@@ -230,7 +272,7 @@ async def get_extractor(provider: ProviderType):
     Get the appropriate extractor for a given insurance provider.
     
     Args:
-        provider: The detected insurance provider
+        provider: The user-defined insurance provider type
         
     Returns:
         An extractor instance for the provider

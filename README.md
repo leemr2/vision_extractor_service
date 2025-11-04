@@ -68,7 +68,7 @@ Versant Health is the parent company of Davis Vision and Superior Vision. The se
 - **Unified Template System**: Uses the `VersantUnifiedTemplate` that inherits from `DavisTemplate`
 - **Multi-Provider Support**: Single extractor handles Davis Vision, Superior Vision, and Versant Health documents
 - **Advanced Tabular Processing**: Sophisticated sequential parsing with multiple fallback strategies
-- **Intelligent Provider Detection**: Automatically recognizes provider branding while handling dual-branded documents
+- **User-Defined Provider Selection**: Provider type is specified by the user, ensuring accurate extraction for documents that may not contain provider branding
 - **Comprehensive Benefit Mapping**: Extracts detailed benefits data including:
   - Exam benefits with frequency and copay information
   - Spectacle lens benefits (single vision, bifocal, trifocal, lenticular)

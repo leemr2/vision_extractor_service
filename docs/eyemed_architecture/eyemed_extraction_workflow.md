@@ -21,7 +21,7 @@ The extraction process follows these key steps:
 flowchart TD
     A[API Request with PDF] --> B[Extract Text from PDF]
     B --> C{Text Quality Check}
-    C -->|Good Quality Text| D[Detect Provider]
+    C -->|Good Quality Text| D[Validate Provider Type]
     C -->|Poor Quality Text| OCR[Apply OCR]
     OCR --> D
     D -->|Other Provider| OtherProcess[Other Provider Process]
@@ -128,7 +128,7 @@ flowchart TD
 
 ## Error Handling
 
-- If provider detection fails, system uses the provider hint if available
+- Provider type is user-defined and required; the system validates the provider type from the user's selection
 - If text extraction fails, system attempts OCR as a fallback
 - If validation fails, system logs warnings and returns best-effort data
 - All exceptions are caught and proper error responses returned

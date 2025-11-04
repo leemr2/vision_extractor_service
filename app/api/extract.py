@@ -74,14 +74,8 @@ async def extract_document(
         # Validate PDF
         validate_pdf(contents)
         
-        # Normalize provider hint if provided
-        normalized_provider_hint = None
-        if provider_hint:
-            try:
-                normalized_provider_hint = ProviderType(provider_hint.lower()).value
-            except ValueError:
-                # Invalid provider hint, but we'll still try to detect it
-                pass
+        # Normalize provider hint (already validated above, but normalize for consistency)
+        normalized_provider_hint = ProviderType(provider_hint.lower()).value
         
         # Process document and extract benefits
         result = await process_document(

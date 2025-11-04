@@ -1,0 +1,16 @@
+{
+  "provider": "vsp",
+  "extraction_id": "902b42c6-9832-4485-a04d-285cac4577b3",
+  "data": {
+    "document_type": null,
+    "document_title": null,
+    "eligibility_info": null,
+    "plan_details": null,
+    "lens_categories": null,
+    "custom_id": null,
+    "metadata": null
+  },
+  "confidence": 0.0,
+  "warnings": [],
+  "processing_time": 0.04806089401245117
+}

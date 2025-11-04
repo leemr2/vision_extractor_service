@@ -35,10 +35,13 @@ The Versant Health implementation:
 3. Contains specific provider detection patterns to recognize Versant Health branding
 4. Modifies output to correctly identify the provider as "Versant Health"
 
-## Document Detection Logic
+## Provider Selection
 
-The system detects the provider using provider-specific patterns defined in `app/config/provider_patterns.py`. For Versant Health, the patterns include:
+The system requires users to specify the provider type when submitting documents. Provider-specific patterns defined in `app/config/provider_patterns.py` are maintained for potential future debugging or audit purposes, but are not used for automatic detection.
 
+**Note**: Provider types must be user-defined because benefit pages often do not contain provider names or branding. The user selection ensures accurate extraction regardless of document content.
+
+For Versant Health, the stored patterns include:
 ```python
 r"Versant Health",
 r"Versant\s+Health",
@@ -48,8 +51,6 @@ r"Superior Vision.*Versant Health",
 r"Versant Health.*Davis Vision",
 r"Versant Health.*Superior Vision",
 ```
-
-These patterns ensure that documents with dual branding (Versant Health + Davis Vision or Versant Health + Superior Vision) are correctly identified as Versant Health documents.
 
 ## Extraction Workflow
 

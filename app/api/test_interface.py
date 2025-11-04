@@ -24,9 +24,23 @@ async def test_extract(
     file: UploadFile = File(None),
     file1: UploadFile = File(None),
     file2: UploadFile = File(None),
-    provider_hint: str = Form(None)
+    provider_hint: str = Form(...)
 ):
     """Extract and save results to test_files/"""
+    
+    # Validate provider_hint is provided
+    if not provider_hint:
+        raise HTTPException(status_code=400, detail="provider_hint is required")
+    
+    # Validate provider_hint is a supported provider
+    try:
+        from app.core.models.standard_models import ProviderType
+        ProviderType(provider_hint.lower())
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported provider: {provider_hint}. Supported providers: {[p.value for p in ProviderType if p != ProviderType.UNKNOWN]}"
+        )
     
     # Determine if this is VSP dual file mode or single file mode
     if provider_hint == "vsp" and file1 and file2:
