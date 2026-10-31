@@ -627,4 +627,5 @@ See `CODE_QUALITY_ANALYSIS.md` for detailed security improvements and future roa
 
 ## Support
 
-For issues, questions, or feedback, please [create an issue](https://github.com/yourusername/vision-extractor-service/issues) on GitHub.
+For issues, questions, or feedback, please [create an issue](https://github.com/yourusername/vision-extractor-service/issues) on GitHub.#   B e n e f i t E x t r a c t o r  
+ 
